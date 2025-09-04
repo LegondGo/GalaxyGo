@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GalaxyGo - Tutor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 25%, #2a2a4a 50%, #1a1a3a 75%, #0a0a2a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+                                    
+                <div class="tier-info">
+                    <h3>🌱 New Tutor (1 Month)</h3>
+                    <p>Starting tier for all new tutors. This gives you time to learn our community standards and build initial experience.</p>
+                </div>
+                
+                <div class="tier-info">
+                    <h3>🚀 Experienced Tutor (6 Months)</h3>
+                    <p>After your first month, you become an Experienced Tutor. This extended period allows you to develop your teaching style and gain student feedback.</p>
+                </div>
+                
+                <div class="tier-info">
+                    <h3>💎 Trusted Tutor (Forever)</h3>
+                    <p>The highest tier - lasts forever unless something serious happens. Achieved through consistently great feedback from students.</p>
+                </div>
+                
+                <p><strong>Why this system?</strong> It gives everyone a fair chance to prove themselves and ensures our students receive quality instruction. Great feedback from students can lead to early promotions!</p>iv class="tier-info">
+                    <h3>🌱 New Tutor (1 Month)</h3>
+                    <p>Starting tier for all new tutors. This gives you time to learn our community standards and build initial experience.</p>
+                </div>
+                
+                <div class="tier-info">
+                    <h3>🚀 Trial Tutor (6 Months)</h3>
+                    <p>After your first month, you become a Trial Tutor. This extended period allows you to develop your teaching style and gain student feedback.</p>
+                </div>
+                
+                <div class="tier-info">
+                    <h3>💎 Trusted Tutor (Permanent)</h3>
+                    <p>The highest tier - lasts forever unless something serious happens. Achieved through consistently great feedback from students.</p>
+                </div>
+                
+                <p><strong>Why this system?</strong> It gives everyone a fair chance to prove themselves and ensures our students receive quality instruction. Great feedback from students can lead to early promotions!</p>-height: 1.6;
+        }
+
+        /* Enhanced Night Sky Background */
+        .night-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .galaxy {
+            position: absolute;
+            width: 400px;
+            height: 250px;
+            background: radial-gradient(ellipse, rgba(138, 43, 226, 0.4) 0%, rgba(75, 0, 130, 0.2) 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite;
+            filter: blur(1px);
+        }
+
+        .galaxy:nth-child(1) {
+            top: 8%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+
+        .galaxy:nth-child(2) {
+            top: 65%;
+            right: 10%;
+            animation-delay: 8s;
+        }
+
+        .galaxy:nth-child(3) {
+            bottom: 15%;
+            left: 70%;
+            animation-delay: 15s;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .star:nth-child(4) { top: 12%; left: 8%; animation-delay: 0s; }
+        .star:nth-child(5) { top: 22%; left: 85%; animation-delay: 0.8s; }
+        .star:nth-child(6) { top: 32%; left: 42%; animation-delay: 1.6s; }
+        .star:nth-child(7) { top: 42%; left: 18%; animation-delay: 2.4s; }
+        .star:nth-child(8) { top: 52%; left: 75%; animation-delay: 3.2s; }
+        .star:nth-child(9) { top: 62%; left: 28%; animation-delay: 4s; }
+        .star:nth-child(10) { top: 72%; left: 65%; animation-delay: 4.8s; }
+        .star:nth-child(11) { top: 82%; left: 12%; animation-delay: 5.6s; }
+        .star:nth-child(12) { top: 18%; left: 55%; animation-delay: 6.4s; }
+        .star:nth-child(13) { top: 38%; left: 88%; animation-delay: 7.2s; }
+        .star:nth-child(14) { top: 58%; left: 5%; animation-delay: 8s; }
+        .star:nth-child(15) { top: 78%; left: 92%; animation-delay: 8.8s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            50% { transform: translateY(-25px) rotate(180deg) scale(1.05); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.8); }
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 70px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border-right: 3px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000) 1;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar:hover {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar.expanded {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar-header {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        }
+
+        /* Gold Astronaut Logo */
+        .astronaut {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .astronaut:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .astronaut-canvas {
+            border-radius: 50%;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+            transition: all 0.3s ease;
+        }
+
+        .astronaut:hover .astronaut-canvas {
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1));
+        }
+
+        .sidebar-nav {
+            padding: 25px 0;
+        }
+
+        .nav-item {
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            margin: 5px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: #00ffff;
+            color: #00ffff;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 255, 255, 0.15);
+            border-left-color: #00ffff;
+            color: #00ffff;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon {
+            transform: scale(1.2);
+        }
+
+        .nav-text {
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .sidebar:hover .nav-text,
+        .sidebar.expanded .nav-text {
+            opacity: 1;
+        }
+
+        /* Enhanced Main Content */
+        .main-content {
+            margin-left: 70px;
+            margin-right: 70px;
+            padding: 50px;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00ff, #ffff00, #00ffff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: rgbShift 4s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes rgbShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .page-subtitle {
+            font-size: 1.4rem;
+            color: #e0e0e0;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .tutor-info {
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff) 1;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-card h2 {
+            color: #00ffff;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .info-card p, .info-card ol {
+            color: #d0d0d0;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .info-card ol {
+            padding-left: 20px;
+        }
+
+        .info-card li {
+            margin-bottom: 10px;
+        }
+
+        .contact-link {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .tier-info {
+            background: rgba(0, 255, 255, 0.1);
+            border-left: 4px solid #00ffff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .tier-info h3 {
+            color: #00ffff;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .tier-info p {
+            color: #e0e0e0;
+            margin: 0;
+        }
+
+        .tutors-container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .tutors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            justify-items: center;
+        }
+
+        .no-tutors {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+            font-size: 1.3rem;
+            font-style: italic;
+        }
+
+        .tutor-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff) 1;
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .tutor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .tutor-card:hover::before {
+            left: 100%;
+        }
+
+        .tutor-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-image: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00) 1;
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .tutor-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #000;
+            font-weight: 700;
+        }
+
+        .tutor-name {
+            font-size: 1.6rem;
+            color: #00ffff;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .tutor-name:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .tutor-rank {
+            color: #ff00ff;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .tutor-description {
+            color: #d0d0d0;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .tutor-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .action-button {
+            padding: 12px 20px;
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .tutors-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 3rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 30px 20px;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.expanded {
+                transform: translateX(0);
+            }
+
+            .tutors-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .tutor-card {
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Night Sky Background -->
+    <div class="night-sky">
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Enhanced Animated Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="astronaut" onclick="toggleSidebar()">
+                <canvas class="astronaut-canvas" width="50" height="50" id="astronautCanvas"></canvas>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="home.html" class="nav-item">
+                <div class="nav-icon">🏠</div>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="tournaments.html" class="nav-item">
+                <div class="nav-icon">🏆</div>
+                <span class="nav-text">Tournaments</span>
+            </a>
+            <a href="seasons.html" class="nav-item">
+                <div class="nav-icon">📅</div>
+                <span class="nav-text">Seasons</span>
+            </a>
+            <a href="goresources.html" class="nav-item">
+                <div class="nav-icon">📚</div>
+                <span class="nav-text">Go Resources</span>
+            </a>
+            <a href="announcementcenter.html" class="nav-item">
+                <div class="nav-icon">📢</div>
+                <span class="nav-text">Announcement Center</span>
+            </a>
+            <a href="news.html" class="nav-item">
+                <div class="nav-icon">📰</div>
+                <span class="nav-text">News</span>
+            </a>
+            <a href="tutor.html" class="nav-item active">
+                <div class="nav-icon">👨‍🏫</div>
+                <span class="nav-text">Tutor</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Enhanced Main Content -->
+    <div class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">Tutor</h1>
+            <p class="page-subtitle">Looking to become a Tutor? Contact Legond on online-go.com to apply</p>
+        </header>
+
+        <div class="tutor-info">
+            <div class="info-card">
+                <h2>👨‍🏫 Looking to become a Tutor?</h2>
+                <p>To apply as a tutor for the GalaxyGo community:</p>
+                <ol>
+                    <li>Contact <a href="https://online-go.com/player/1849164/" class="contact-link" target="_blank">Legond</a> on OGS</li>
+                    <li>Provide your Go background and teaching experience</li>
+                    <li>Demonstrate your commitment to helping others improve</li>
+                    <li>Complete a brief interview process</li>
+                </ol>
+                <p><strong>Tutor Benefits:</strong></p>
+                <ul>
+                    <li>Help grow the GalaxyGo community</li>
+                    <li>Share your passion for Go</li>
+                    <li>Build lasting connections with students</li>
+                    <li>Recognition within the community</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h2>⭐ Tutor Tier System</h2>
+                <p>We have a tier system to give everyone opportunities and ensure quality tutoring:</p>
+
+� Rank Restriction: 25 Kyu – 9 Dan+ (Provisional players allowed)<br>
+🏆 Tournament Type: Swiss (4 to 10,000 players)<br>
+🎲 Initial Pairing: Random<br>
+🔄 Subsequent Pairing: Slaughter<br>
+<br>
+� The top 64 players from the Swiss tournament will advance to a Single Elimination stage!<br>
+<br>
+🎟️ If you qualify, you will receive an invitation to an invitation-only tournament where these top players compete.<br>
+<br>
+⚠️ If you do not receive an invitation or fail to accept it, the next highest-ranked player on the pool table will take your spot.<br>
+<br>
+📢 IMPORTANT: To get announcements and updates, please join our group here: <a href="https://online-go.com/group/15675" target="_blank">GalaxyGo Group</a>
+<br>
+Tournament link: <a href="https://online-go.com/tournament/132102" target="_blank">2026-27 GalaxyGo Season Tournament</a>
+<br>
+Group link: <a href="https://online-go.com/group/15675" target="_blank">GalaxyGo Group</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="tutors-container" id="tutorsContainer">
+            <div class="no-tutors">No tutors available at the moment. Please check back later!</div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth sidebar functionality
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('expanded');
+        }
+
+        // Enhanced hover effect for sidebar
+        document.getElementById('sidebar').addEventListener('mouseenter', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '280px';
+            }
+        });
+
+        document.getElementById('sidebar').addEventListener('mouseleave', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '70px';
+            }
+        });
+
+        // Gold Astronaut Logo with JavaScript Canvas
+        function drawAstronaut() {
+            const canvas = document.getElementById('astronautCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, 50, 50);
+            
+            // Set gold color and line properties
+            ctx.strokeStyle = '#FFD700';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Helmet (main circle)
+            ctx.beginPath();
+            ctx.arc(25, 20, 15, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Helmet visor
+            ctx.beginPath();
+            ctx.arc(25, 18, 10, 0, Math.PI);
+            ctx.stroke();
+            
+            // Body (rectangle with rounded corners)
+            ctx.beginPath();
+            ctx.roundRect(18, 32, 14, 12, 3);
+            ctx.stroke();
+            
+            // Arms
+            ctx.beginPath();
+            ctx.moveTo(12, 36);
+            ctx.lineTo(18, 36);
+            ctx.moveTo(32, 36);
+            ctx.lineTo(38, 36);
+            ctx.stroke();
+            
+            // Legs
+            ctx.beginPath();
+            ctx.moveTo(20, 44);
+            ctx.lineTo(20, 48);
+            ctx.moveTo(30, 44);
+            ctx.lineTo(30, 48);
+            ctx.stroke();
+            
+            // Chest panel
+            ctx.beginPath();
+            ctx.roundRect(21, 35, 8, 6, 1);
+            ctx.stroke();
+            
+            // Add some sparkles for extra effect
+            const sparkles = [
+                {x: 15, y: 15, size: 1},
+                {x: 35, y: 12, size: 1.5},
+                {x: 10, y: 25, size: 1},
+                {x: 40, y: 30, size: 1.2}
+            ];
+            
+            sparkles.forEach(sparkle => {
+                ctx.beginPath();
+                ctx.arc(sparkle.x, sparkle.y, sparkle.size, 0, 2 * Math.PI);
+                ctx.fillStyle = '#FFD700';
+                ctx.fill();
+            });
+        }
+
+        // Animated astronaut on hover
+        document.querySelector('.astronaut').addEventListener('mouseenter', function() {
+            const canvas = document.getElementById('astronautCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Add glow effect
+            ctx.shadowColor = '#FFD700';
+            ctx.shadowBlur = 15;
+            drawAstronaut();
+            ctx.shadowBlur = 0;
+        });
+
+        document.querySelector('.astronaut').addEventListener('mouseleave', function() {
+            drawAstronaut();
+        });
+
+        // Tutor data
+        const tutorsData = [
+            {
+                id: 1,
+                username: "Legond",
+                profileLink: "https://online-go.com/player/1849164/",
+                about: "Hi there! I am the founder of GalaxyGo! I am 4D and I would love to tutor you!",
+                level: "TrustedTutor"
+            }
+        ];
+
+        function displayTutors() {
+            const container = document.getElementById('tutorsContainer');
+            
+            if (tutorsData.length === 0) {
+                container.innerHTML = '<div class="no-tutors">No tutors available at the moment. Please check back later!</div>';
+                return;
+            }
+            
+            const levelInfo = {
+                'NewTutor': { text: 'NewTutor (1 month)', color: '#ffaa00' },
+                'TrailMod': { text: 'Trail Mod (6 months)', color: '#00ffff' },
+                'TrustedTutor': { text: 'Trusted Tutor (forever)', color: '#00ff00' }
+            };
+            
+            let html = '<div class="tutors-grid">';
+            tutorsData.forEach(tutor => {
+                html += `
+                    <div class="tutor-card">
+                        <div class="tutor-avatar">${tutor.username.charAt(0).toUpperCase()}</div>
+                        <a href="${tutor.profileLink}" class="tutor-name" target="_blank">${tutor.username}</a>
+                        <div class="tutor-rank" style="color: ${levelInfo[tutor.level].color}">${levelInfo[tutor.level].text}</div>
+                        <p class="tutor-description">${tutor.about}</p>
+                        <div class="tutor-actions">
+                            <a href="${tutor.profileLink}" class="action-button" target="_blank">View Profile</a>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            container.innerHTML = html;
+        }
+
+        // Initialize page
+        window.addEventListener('load', function() {
+            drawAstronaut();
+            displayTutors();
+        });
+    </script>
+</body>
+</html>

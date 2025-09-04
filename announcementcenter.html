@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GalaxyGo - Announcement Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 25%, #2a2a4a 50%, #1a1a3a 75%, #0a0a2a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Night Sky Background */
+        .night-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .galaxy {
+            position: absolute;
+            width: 400px;
+            height: 250px;
+            background: radial-gradient(ellipse, rgba(138, 43, 226, 0.4) 0%, rgba(75, 0, 130, 0.2) 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite;
+            filter: blur(1px);
+        }
+
+        .galaxy:nth-child(1) {
+            top: 8%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+
+        .galaxy:nth-child(2) {
+            top: 65%;
+            right: 10%;
+            animation-delay: 8s;
+        }
+
+        .galaxy:nth-child(3) {
+            bottom: 15%;
+            left: 70%;
+            animation-delay: 15s;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .star:nth-child(4) { top: 12%; left: 8%; animation-delay: 0s; }
+        .star:nth-child(5) { top: 22%; left: 85%; animation-delay: 0.8s; }
+        .star:nth-child(6) { top: 32%; left: 42%; animation-delay: 1.6s; }
+        .star:nth-child(7) { top: 42%; left: 18%; animation-delay: 2.4s; }
+        .star:nth-child(8) { top: 52%; left: 75%; animation-delay: 3.2s; }
+        .star:nth-child(9) { top: 62%; left: 28%; animation-delay: 4s; }
+        .star:nth-child(10) { top: 72%; left: 65%; animation-delay: 4.8s; }
+        .star:nth-child(11) { top: 82%; left: 12%; animation-delay: 5.6s; }
+        .star:nth-child(12) { top: 18%; left: 55%; animation-delay: 6.4s; }
+        .star:nth-child(13) { top: 38%; left: 88%; animation-delay: 7.2s; }
+        .star:nth-child(14) { top: 58%; left: 5%; animation-delay: 8s; }
+        .star:nth-child(15) { top: 78%; left: 92%; animation-delay: 8.8s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            50% { transform: translateY(-25px) rotate(180deg) scale(1.05); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.8); }
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 70px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border-right: 3px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000) 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar:hover {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar.expanded {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar-header {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        }
+
+        /* Astronaut Canvas Styling */
+        .astronaut {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .astronaut-canvas {
+            transition: all 0.3s ease;
+        }
+
+        .astronaut:hover .astronaut-canvas {
+            transform: scale(1.1);
+        }
+
+        .sidebar-nav {
+            padding: 25px 0;
+        }
+
+        .nav-item {
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            margin: 5px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: #00ffff;
+            color: #00ffff;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 255, 255, 0.15);
+            border-left-color: #00ffff;
+            color: #00ffff;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon {
+            transform: scale(1.2);
+        }
+
+        .nav-text {
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .sidebar:hover .nav-text,
+        .sidebar.expanded .nav-text {
+            opacity: 1;
+        }
+
+        /* Enhanced Main Content */
+        .main-content {
+            margin-left: 70px;
+            margin-right: 70px;
+            padding: 50px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00ff, #ffff00, #00ffff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: rgbShift 4s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes rgbShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .page-subtitle {
+            font-size: 1.4rem;
+            color: #e0e0e0;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .admin-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .admin-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .announcement-info {
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .info-card h2 {
+            color: #00ffff;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .info-card p {
+            color: #d0d0d0;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .info-card ol {
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+            color: #d0d0d0;
+        }
+
+        .info-card ol li {
+            margin-bottom: 10px;
+        }
+
+        .info-card ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+            color: #d0d0d0;
+        }
+
+        .info-card ul li {
+            margin-bottom: 8px;
+        }
+
+        /* Tutorial Content Styles */
+        .tutorial-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .step-guide {
+            margin-top: 20px;
+        }
+
+        .step {
+            background: rgba(0, 255, 255, 0.1);
+            border-left: 4px solid #00ffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .step h3 {
+            color: #00ffff;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .step ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .step li {
+            margin-bottom: 8px;
+            color: #d0d0d0;
+        }
+
+        .contact-info {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .contact-link {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-link:hover {
+            color: #FFA500;
+            text-decoration: underline;
+        }
+
+        .guidelines {
+            text-align: left;
+        }
+
+        .guidelines h3 {
+            color: #00ffff;
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+        }
+
+        .guidelines ul {
+            margin-bottom: 20px;
+        }
+
+        .info-card li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .info-card .note {
+            color: #ffaa00;
+            font-style: italic;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 170, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-content {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00) 1;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+
+        .admin-title {
+            font-size: 2rem;
+            color: #00ffff;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .admin-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .admin-input:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .admin-submit {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 15px;
+        }
+
+        .admin-submit:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.4);
+        }
+
+        .admin-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .admin-close {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .throttle-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .announcements-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .announcement-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff) 1;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .announcement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .announcement-card:hover::before {
+            left: 100%;
+        }
+
+        .announcement-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            border-image: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00) 1;
+            box-shadow: 0 15px 35px rgba(0, 255, 255, 0.3);
+        }
+
+        .announcement-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .announcement-icon {
+            font-size: 2.5rem;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .announcement-meta {
+            flex: 1;
+        }
+
+        .announcement-title {
+            font-size: 1.6rem;
+            color: #00ffff;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .announcement-date {
+            color: #888;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .announcement-content {
+            color: #d0d0d0;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .announcement-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .announcement-tag {
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .announcement-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .action-button {
+            padding: 10px 20px;
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .priority-high {
+            border-image: linear-gradient(45deg, #ff0000, #ff6600, #ff0000) 1;
+        }
+
+        .priority-medium {
+            border-image: linear-gradient(45deg, #ffff00, #ffaa00, #ffff00) 1;
+        }
+
+        .priority-low {
+            border-image: linear-gradient(45deg, #00ff00, #00aa00, #00ff00) 1;
+        }
+
+        .no-announcements {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+            font-size: 1.3rem;
+            font-style: italic;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 3rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 30px 20px;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.expanded {
+                transform: translateX(0);
+            }
+
+            .announcement-card {
+                padding: 25px 20px;
+            }
+
+            .announcement-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .announcement-actions {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+
+            .announcement-card {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Night Sky Background -->
+    <div class="night-sky">
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Enhanced Animated Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="astronaut" onclick="toggleSidebar()">
+                <canvas class="astronaut-canvas" width="50" height="50" id="astronautCanvas"></canvas>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="home.html" class="nav-item">
+                <div class="nav-icon">🏠</div>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="tournaments.html" class="nav-item">
+                <div class="nav-icon">🏆</div>
+                <span class="nav-text">Tournaments</span>
+            </a>
+            <a href="seasons.html" class="nav-item">
+                <div class="nav-icon">📅</div>
+                <span class="nav-text">Seasons</span>
+            </a>
+            <a href="goresources.html" class="nav-item">
+                <div class="nav-icon">📚</div>
+                <span class="nav-text">Go Resources</span>
+            </a>
+            <a href="announcementcenter.html" class="nav-item active">
+                <div class="nav-icon">📢</div>
+                <span class="nav-text">Announcement Center</span>
+            </a>
+            <a href="news.html" class="nav-item">
+                <div class="nav-icon">📰</div>
+                <span class="nav-text">News</span>
+            </a>
+            <a href="tutor.html" class="nav-item">
+                <div class="nav-icon">👨‍🏫</div>
+                <span class="nav-text">Tutor</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Enhanced Main Content -->
+    <div class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">Announcement Center</h1>
+            <p class="page-subtitle">Learn how to get your news and announcements featured on GalaxyGo</p>
+        </header>
+
+        <div class="tutorial-content">
+            <div class="info-card">
+                <h2>� How to Submit News for Publication</h2>
+                <p>Want to share news, events, or announcements with the GalaxyGo community? Here's how to get your content featured in our News section:</p>
+                
+                <div class="step-guide">
+                    <div class="step">
+                        <h3>Step 1: Prepare Your Content</h3>
+                        <ul>
+                            <li><strong>Title:</strong> Create a clear, engaging headline</li>
+                            <li><strong>Description:</strong> Write a detailed explanation of your news/event</li>
+                            <li><strong>Links:</strong> Include any relevant websites, tournament pages, or resources</li>
+                            <li><strong>Images:</strong> Provide any relevant images or graphics (optional)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <h3>Step 2: Contact Our Moderators</h3>
+                        <p>Submit your content by contacting:</p>
+                        <div class="contact-info">
+                            <p><strong>Primary Contact:</strong> <a href="https://online-go.com/player/1849164/" target="_blank" class="contact-link">Legond</a> on online-go.com</p>
+                            <p><em>Send a private message with your news submission</em></p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <h3>Step 3: Review Process</h3>
+                        <ul>
+                            <li>Our moderators will review your submission within 24-48 hours</li>
+                            <li>Content must be Go-related and appropriate for the community</li>
+                            <li>We may request minor edits or clarifications</li>
+                            <li>Once approved, your news will appear in the News section</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h2>✅ Content Guidelines</h2>
+                <div class="guidelines">
+                    <h3>What We Accept:</h3>
+                    <ul>
+                        <li>Tournament announcements and results</li>
+                        <li>Go-related events and workshops</li>
+                        <li>Community achievements and milestones</li>
+                        <li>Educational content and resources</li>
+                        <li>Club and organization news</li>
+                    </ul>
+                    
+                    <h3>What We Don't Accept:</h3>
+                    <ul>
+                        <li>Commercial advertisements (unless community-relevant)</li>
+                        <li>Off-topic content unrelated to Go</li>
+                        <li>Inappropriate or offensive material</li>
+                        <li>Spam or repetitive submissions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h2>💡 Tips for Better Submissions</h2>
+                <ul>
+                    <li><strong>Be Specific:</strong> Include dates, times, and locations for events</li>
+                    <li><strong>Add Context:</strong> Explain why this news matters to the Go community</li>
+                    <li><strong>Proofread:</strong> Check for spelling and grammar before submitting</li>
+                    <li><strong>Include Sources:</strong> Link to official websites or announcements</li>
+                    <li><strong>Be Patient:</strong> Allow time for the review process</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('expanded');
+        }
+
+        // Enhanced hover effect for sidebar
+        document.getElementById('sidebar').addEventListener('mouseenter', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '280px';
+            }
+        });
+
+        document.getElementById('sidebar').addEventListener('mouseleave', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '70px';
+            }
+        });
+
+        // Server-side admin system with password throttling
+        let loginAttempts = 0;
+        let lastLoginAttempt = 0;
+        const THROTTLE_DURATION = 300000; // 5 minutes in milliseconds
+        const MAX_ATTEMPTS = 5;
+
+        // Admin functionality
+        function showAdminModal() {
+            document.getElementById('adminModal').classList.add('show');
+            document.getElementById('throttleMessage').style.display = 'none';
+            document.getElementById('adminSubmit').disabled = false;
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('show');
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('throttleMessage').style.display = 'none';
+        }
+
+        function closeAddAnnouncementModal() {
+            document.getElementById('addAnnouncementModal').classList.remove('show');
+            document.getElementById('announcementName').value = '';
+            document.getElementById('announcementLink').value = '';
+            document.getElementById('announcementDescription').value = '';
+        }
+
+        function checkPassword() {
+            const inputPassword = document.getElementById('adminPassword').value;
+            const correctPassword = '20110119hkpukwc131';
+            const currentTime = Date.now();
+            
+            // Check if throttled
+            if (loginAttempts >= MAX_ATTEMPTS) {
+                if (currentTime - lastLoginAttempt < THROTTLE_DURATION) {
+                    const remainingTime = Math.ceil((THROTTLE_DURATION - (currentTime - lastLoginAttempt)) / 1000 / 60);
+                    document.getElementById('throttleMessage').textContent = `Too many failed attempts. Please try again in ${remainingTime} minutes.`;
+                    document.getElementById('throttleMessage').style.display = 'block';
+                    document.getElementById('adminSubmit').disabled = true;
+                    return;
+                } else {
+                    // Reset throttling after time period
+                    loginAttempts = 0;
+                }
+            }
+            
+            if (inputPassword === correctPassword) {
+                loginAttempts = 0; // Reset on successful login
+                closeAdminModal();
+                document.getElementById('addAnnouncementModal').classList.add('show');
+            } else {
+                loginAttempts++;
+                lastLoginAttempt = currentTime;
+                
+                if (loginAttempts >= MAX_ATTEMPTS) {
+                    document.getElementById('throttleMessage').textContent = 'Too many failed attempts. Please try again in 5 minutes.';
+                    document.getElementById('throttleMessage').style.display = 'block';
+                    document.getElementById('adminSubmit').disabled = true;
+                } else {
+                    document.getElementById('throttleMessage').textContent = `Incorrect password. ${MAX_ATTEMPTS - loginAttempts} attempts remaining.`;
+                    document.getElementById('throttleMessage').style.display = 'block';
+                }
+                
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        function addAnnouncement() {
+            const name = document.getElementById('announcementName').value.trim();
+            const link = document.getElementById('announcementLink').value.trim();
+            const description = document.getElementById('announcementDescription').value.trim();
+            
+            if (!name || !link || !description) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            // Save announcement to localStorage
+            const announcements = JSON.parse(localStorage.getItem('announcements') || '[]');
+            announcements.push({ 
+                name, 
+                link, 
+                description, 
+                createdAt: new Date().toISOString() 
+            });
+            localStorage.setItem('announcements', JSON.stringify(announcements));
+            
+            // Close modal and refresh display
+            closeAddAnnouncementModal();
+            displayAnnouncements();
+        }
+
+        function displayAnnouncements() {
+            const announcements = JSON.parse(localStorage.getItem('announcements') || '[]');
+            const container = document.getElementById('announcementsContainer');
+            
+            if (announcements.length === 0) {
+                container.innerHTML = '<div class="no-announcements">No announcements available. Please check back later!</div>';
+                return;
+            }
+            
+            let html = '';
+            announcements.forEach(announcement => {
+                html += `
+                    <div class="announcement-card">
+                        <div class="announcement-header">
+                            <span class="announcement-icon">📢</span>
+                            <div class="announcement-meta">
+                                <h2 class="announcement-title">${announcement.name}</h2>
+                                <div class="announcement-date">${new Date(announcement.createdAt).toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                        <div class="announcement-content">
+                            <p>${announcement.description}</p>
+                        </div>
+                        <div class="announcement-actions">
+                            <a href="${announcement.link}" class="action-button" target="_blank">View Details</a>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Close modals when clicking outside
+        document.getElementById('adminModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAdminModal();
+            }
+        });
+        
+        document.getElementById('addAnnouncementModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAddAnnouncementModal();
+            }
+        });
+
+        // Display announcements on page load
+        displayAnnouncements();
+
+        // Gold Astronaut Logo with JavaScript Canvas
+        function drawAstronaut() {
+            const canvas = document.getElementById('astronautCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, 50, 50);
+            
+            // Set gold color and line properties
+            ctx.strokeStyle = '#FFD700';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Helmet (main circle)
+            ctx.beginPath();
+            ctx.arc(25, 20, 15, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Helmet visor
+            ctx.beginPath();
+            ctx.arc(25, 18, 10, 0, Math.PI);
+            ctx.stroke();
+            
+            // Body (rectangle with rounded corners)
+            ctx.beginPath();
+            ctx.roundRect(18, 32, 14, 12, 3);
+            ctx.stroke();
+            
+            // Arms
+            ctx.beginPath();
+            ctx.moveTo(12, 36);
+            ctx.lineTo(18, 36);
+            ctx.moveTo(32, 36);
+            ctx.lineTo(38, 36);
+            ctx.stroke();
+            
+            // Legs
+            ctx.beginPath();
+            ctx.moveTo(20, 44);
+            ctx.lineTo(20, 48);
+            ctx.moveTo(30, 44);
+            ctx.lineTo(30, 48);
+            ctx.stroke();
+            
+            // Chest panel
+            ctx.beginPath();
+            ctx.roundRect(21, 35, 8, 6, 1);
+            ctx.stroke();
+            
+            // Add some sparkles for extra effect
+            const sparkles = [
+                {x: 15, y: 15, size: 1},
+                {x: 35, y: 12, size: 1.5},
+                {x: 10, y: 25, size: 1},
+                {x: 40, y: 30, size: 1.2}
+            ];
+            
+            sparkles.forEach(sparkle => {
+                ctx.beginPath();
+                ctx.arc(sparkle.x, sparkle.y, sparkle.size, 0, 2 * Math.PI);
+                ctx.fillStyle = '#FFD700';
+                ctx.fill();
+            });
+        }
+
+        // Animated astronaut on hover
+        document.querySelector('.astronaut').addEventListener('mouseenter', function() {
+            const canvas = document.getElementById('astronautCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Add glow effect
+            ctx.shadowColor = '#FFD700';
+            ctx.shadowBlur = 15;
+            drawAstronaut();
+            ctx.shadowBlur = 0;
+        });
+
+        document.querySelector('.astronaut').addEventListener('mouseleave', function() {
+            drawAstronaut();
+        });
+
+        // Initial draw
+        window.addEventListener('load', function() {
+            drawAstronaut();
+        });
+    </script>
+</body>
+</html>

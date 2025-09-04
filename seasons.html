@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlanetGo - Seasons</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 25%, #2a2a4a 50%, #1a1a3a 75%, #0a0a2a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Night Sky Backgrou        const seasonsData = [
+            {
+                id: 1,
+                year: "2025-26",
+                title: "GalaxyGo 2025-26 Season Group Stage",
+                description: "🌟 2026-27 GalaxyGo Season 🌟\n\n🕛 Start Time: January 1, 2026, 12:00 AM\n⏳ Game Speed: Correspondence\n⏰ Time Control: 10 days main time + 5 periods of 1 day 12 hours Byo-Yomi\n📏 Rules: Japanese, 19x19 board, no handicap\n🎯 Rank Restriction: 25 Kyu – 9 Dan+ (Provisional players allowed)\n🏆 Tournament Type: Swiss (4 to 10,000 players)\n🎲 Initial Pairing: Random\n🔄 Subsequent Pairing: Slaughter\n\n🔥 The top 64 players from the Swiss tournament will advance to a Single Elimination stage!\n\n🎟️ If you qualify, you will receive an invitation to an invitation-only tournament where these top players compete.\n\n⚠️ If you do not receive an invitation or fail to accept it, the next highest-ranked player on the pool table will take your spot.\n\n📢 IMPORTANT: To get announcements and updates, please join our group here: https://online-go.com/group/15675",
+                link: "https://online-go.com/tournaments/132102"
+            }
+        ];      .night-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .galaxy {
+            position: absolute;
+            width: 400px;
+            height: 250px;
+            background: radial-gradient(ellipse, rgba(138, 43, 226, 0.4) 0%, rgba(75, 0, 130, 0.2) 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite;
+            filter: blur(1px);
+        }
+
+        .galaxy:nth-child(1) {
+            top: 8%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+
+        .galaxy:nth-child(2) {
+            top: 65%;
+            right: 10%;
+            animation-delay: 8s;
+        }
+
+        .galaxy:nth-child(3) {
+            bottom: 15%;
+            left: 70%;
+            animation-delay: 15s;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .star:nth-child(4) { top: 12%; left: 8%; animation-delay: 0s; }
+        .star:nth-child(5) { top: 22%; left: 85%; animation-delay: 0.8s; }
+        .star:nth-child(6) { top: 32%; left: 42%; animation-delay: 1.6s; }
+        .star:nth-child(7) { top: 42%; left: 18%; animation-delay: 2.4s; }
+        .star:nth-child(8) { top: 52%; left: 75%; animation-delay: 3.2s; }
+        .star:nth-child(9) { top: 62%; left: 28%; animation-delay: 4s; }
+        .star:nth-child(10) { top: 72%; left: 65%; animation-delay: 4.8s; }
+        .star:nth-child(11) { top: 82%; left: 12%; animation-delay: 5.6s; }
+        .star:nth-child(12) { top: 18%; left: 55%; animation-delay: 6.4s; }
+        .star:nth-child(13) { top: 38%; left: 88%; animation-delay: 7.2s; }
+        .star:nth-child(14) { top: 58%; left: 5%; animation-delay: 8s; }
+        .star:nth-child(15) { top: 78%; left: 92%; animation-delay: 8.8s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            50% { transform: translateY(-25px) rotate(180deg) scale(1.05); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.8); }
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 70px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border-right: 3px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000) 1;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar:hover {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar.expanded {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar-header {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        }
+
+        /* Gold Astronaut Logo */
+        .astronaut {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .astronaut:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .astronaut-canvas {
+            border-radius: 50%;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+            transition: all 0.3s ease;
+        }
+
+        .astronaut:hover .astronaut-canvas {
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1));
+        }
+
+        .sidebar-nav {
+            padding: 25px 0;
+        }
+
+        .nav-item {
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            margin: 5px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: #00ffff;
+            color: #00ffff;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 255, 255, 0.15);
+            border-left-color: #00ffff;
+            color: #00ffff;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon {
+            transform: scale(1.2);
+        }
+
+        .nav-text {
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .sidebar:hover .nav-text,
+        .sidebar.expanded .nav-text {
+            opacity: 1;
+        }
+
+        /* Enhanced Main Content */
+        .main-content {
+            margin-left: 70px;
+            margin-right: 70px;
+            padding: 50px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00ff, #ffff00, #00ffff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: rgbShift 4s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes rgbShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .page-subtitle {
+            font-size: 1.4rem;
+            color: #e0e0e0;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .seasons-container {
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .no-seasons {
+            font-size: 1.5rem;
+            color: #888;
+            font-style: italic;
+        }
+
+        .seasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+            justify-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .season-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff) 1;
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .season-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .season-card:hover::before {
+            left: 100%;
+        }
+
+        .season-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-image: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00) 1;
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .season-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .delete-btn {
+            padding: 8px 15px;
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.4);
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background: rgba(255, 107, 107, 0.3);
+        }
+
+        .season-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            display: block;
+            text-align: center;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .season-title {
+            font-size: 1.8rem;
+            color: #00ffff;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .season-title-link {
+            color: #00ffff;
+            text-decoration: none;
+            font-size: 1.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+        }
+
+        .season-title-link:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .season-description {
+            color: #d0d0d0;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .season-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .season-link {
+            display: inline-block;
+            padding: 12px 20px;
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        .season-link:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+            width: 100%;
+            text-align: center;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .seasons-grid {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 3rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 30px 20px;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.expanded {
+                transform: translateX(0);
+            }
+
+            .seasons-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .season-card {
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Night Sky Background -->
+    <div class="night-sky">
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Enhanced Animated Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="astronaut" onclick="toggleSidebar()">
+                <canvas class="astronaut-canvas" width="50" height="50" id="astronautCanvas"></canvas>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="home.html" class="nav-item">
+                <div class="nav-icon">🏠</div>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="tournaments.html" class="nav-item">
+                <div class="nav-icon">🏆</div>
+                <span class="nav-text">Tournaments</span>
+            </a>
+            <a href="seasons.html" class="nav-item active">
+                <div class="nav-icon">📅</div>
+                <span class="nav-text">Seasons</span>
+            </a>
+            <a href="goresources.html" class="nav-item">
+                <div class="nav-icon">📚</div>
+                <span class="nav-text">Go Resources</span>
+            </a>
+            <a href="announcementcenter.html" class="nav-item">
+                <div class="nav-icon">📢</div>
+                <span class="nav-text">Announcement Center</span>
+            </a>
+            <a href="news.html" class="nav-item">
+                <div class="nav-icon">📰</div>
+                <span class="nav-text">News</span>
+            </a>
+            <a href="tutor.html" class="nav-item">
+                <div class="nav-icon">👨‍🏫</div>
+                <span class="nav-text">Tutor</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Enhanced Main Content -->
+    <div class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">Seasons</h1>
+            <p class="page-subtitle">Track your progress through competitive Go seasons and climb the rankings</p>
+        </header>
+
+        <div class="seasons-container" id="seasonsContainer">
+            <div class="no-seasons">No seasons currently active. Please check back later!</div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth sidebar functionality
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('expanded');
+        }
+
+        // Enhanced hover effect for sidebar
+        document.getElementById('sidebar').addEventListener('mouseenter', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '280px';
+            }
+        });
+
+        document.getElementById('sidebar').addEventListener('mouseleave', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '70px';
+            }
+        });
+
+        // Gold Astronaut Logo with JavaScript Canvas
+        function drawAstronaut() {
+            const canvas = document.getElementById('astronautCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, 50, 50);
+            
+            // Set gold color and line properties
+            ctx.strokeStyle = '#FFD700';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Helmet (main circle)
+            ctx.beginPath();
+            ctx.arc(25, 20, 15, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Helmet visor
+            ctx.beginPath();
+            ctx.arc(25, 18, 10, 0, Math.PI);
+            ctx.stroke();
+            
+            // Body (rectangle with rounded corners)
+            ctx.beginPath();
+            ctx.roundRect(18, 32, 14, 12, 3);
+            ctx.stroke();
+            
+            // Arms
+            ctx.beginPath();
+            ctx.moveTo(12, 36);
+            ctx.lineTo(18, 36);
+            ctx.moveTo(32, 36);
+            ctx.lineTo(38, 36);
+            ctx.stroke();
+            
+            // Legs
+            ctx.beginPath();
+            ctx.moveTo(20, 44);
+            ctx.lineTo(20, 48);
+            ctx.moveTo(30, 44);
+            ctx.lineTo(30, 48);
+            ctx.stroke();
+            
+            // Chest panel
+            ctx.beginPath();
+            ctx.roundRect(21, 35, 8, 6, 1);
+            ctx.stroke();
+            
+            // Add some sparkles for extra effect
+            const sparkles = [
+                {x: 15, y: 15, size: 1},
+                {x: 35, y: 12, size: 1.5},
+                {x: 10, y: 25, size: 1},
+                {x: 40, y: 30, size: 1.2}
+            ];
+            
+            sparkles.forEach(sparkle => {
+                ctx.beginPath();
+                ctx.arc(sparkle.x, sparkle.y, sparkle.size, 0, 2 * Math.PI);
+                ctx.fillStyle = '#FFD700';
+                ctx.fill();
+            });
+        }
+
+        // Animated astronaut on hover
+        document.querySelector('.astronaut').addEventListener('mouseenter', function() {
+            const canvas = document.getElementById('astronautCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Add glow effect
+            ctx.shadowColor = '#FFD700';
+            ctx.shadowBlur = 15;
+            drawAstronaut();
+            ctx.shadowBlur = 0;
+        });
+
+        document.querySelector('.astronaut').addEventListener('mouseleave', function() {
+            drawAstronaut();
+        });
+
+        // Season data
+        const seasonsData = [
+            {
+                id: 1,
+                year: "2026-27",
+                title: "GalaxyGo 2026-27 Season Group Stage",
+                description: "🌟 2026-27 GalaxyGo Season 🌟\n\n🕛 Start Time: January 1, 2026, 12:00 AM\n⏳ Game Speed: Correspondence\n⏰ Time Control: 10 days main time + 5 periods of 1 day 12 hours Byo-Yomi\n📏 Rules: Japanese, 19x19 board, no handicap\n🎯 Rank Restriction: 25 Kyu – 9 Dan+ (Provisional players allowed)\n🏆 Tournament Type: Swiss (4 to 10,000 players)\n🎲 Initial Pairing: Random\n🔄 Subsequent Pairing: Slaughter\n\n🔥 The top 64 players from the Swiss tournament will advance to a Single Elimination stage!\n\n🎟️ If you qualify, you will receive an invitation to an invitation-only tournament where these top players compete.\n\n⚠️ If you do not receive an invitation or fail to accept it, the next highest-ranked player on the pool table will take your spot.\n\n📢 IMPORTANT: To get announcements and updates, please join our group here: <a href='https://online-go.com/group/15675' target='_blank'>GalaxyGo Group</a>",
+                link: "https://online-go.com/tournament/132104"
+            }
+        ];
+
+        function displaySeasons() {
+            const container = document.getElementById('seasonsContainer');
+            
+            if (seasonsData.length === 0) {
+                container.innerHTML = '<div class="no-seasons">No seasons currently active. Please check back later!</div>';
+                return;
+            }
+            
+            let html = '<div class="seasons-grid">';
+            seasonsData.forEach(season => {
+                html += `
+                    <div class="season-card">
+                        <div class="season-header">
+                            <a href="${season.link}" class="season-title-link" target="_blank">${season.title}</a>
+                        </div>
+                        <p class="season-description">${season.description.replace(/\n/g, '<br>')}</p>
+                        <div class="season-links">
+                            <a href="${season.link}" class="season-link" target="_blank">Join Tournament</a>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            container.innerHTML = html;
+        }
+
+        // Initialize page
+        window.addEventListener('load', function() {
+            drawAstronaut();
+            displaySeasons();
+        });
+    </script>
+</body>
+</html>

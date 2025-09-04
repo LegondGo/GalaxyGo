@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GalaxyGo - News</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 25%, #2a2a4a 50%, #1a1a3a 75%, #0a0a2a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Night Sky Background */
+        .night-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .galaxy {
+            position: absolute;
+            width: 400px;
+            height: 250px;
+            background: radial-gradient(ellipse, rgba(138, 43, 226, 0.4) 0%, rgba(75, 0, 130, 0.2) 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite;
+            filter: blur(1px);
+        }
+
+        .galaxy:nth-child(1) {
+            top: 8%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+
+        .galaxy:nth-child(2) {
+            top: 65%;
+            right: 10%;
+            animation-delay: 8s;
+        }
+
+        .galaxy:nth-child(3) {
+            bottom: 15%;
+            left: 70%;
+            animation-delay: 15s;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .star:nth-child(4) { top: 12%; left: 8%; animation-delay: 0s; }
+        .star:nth-child(5) { top: 22%; left: 85%; animation-delay: 0.8s; }
+        .star:nth-child(6) { top: 32%; left: 42%; animation-delay: 1.6s; }
+        .star:nth-child(7) { top: 42%; left: 18%; animation-delay: 2.4s; }
+        .star:nth-child(8) { top: 52%; left: 75%; animation-delay: 3.2s; }
+        .star:nth-child(9) { top: 62%; left: 28%; animation-delay: 4s; }
+        .star:nth-child(10) { top: 72%; left: 65%; animation-delay: 4.8s; }
+        .star:nth-child(11) { top: 82%; left: 12%; animation-delay: 5.6s; }
+        .star:nth-child(12) { top: 18%; left: 55%; animation-delay: 6.4s; }
+        .star:nth-child(13) { top: 38%; left: 88%; animation-delay: 7.2s; }
+        .star:nth-child(14) { top: 58%; left: 5%; animation-delay: 8s; }
+        .star:nth-child(15) { top: 78%; left: 92%; animation-delay: 8.8s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            50% { transform: translateY(-25px) rotate(180deg) scale(1.05); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.8); }
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 70px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border-right: 3px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000) 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar:hover {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar.expanded {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar-header {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        }
+
+        /* Astronaut Canvas Styling */
+        .astronaut {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .astronaut-canvas {
+            transition: all 0.3s ease;
+        }
+
+        .astronaut:hover .astronaut-canvas {
+            transform: scale(1.1);
+        }
+
+        .sidebar-nav {
+            padding: 25px 0;
+        }
+
+        .nav-item {
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            margin: 5px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: #00ffff;
+            color: #00ffff;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 255, 255, 0.15);
+            border-left-color: #00ffff;
+            color: #00ffff;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon {
+            transform: scale(1.2);
+        }
+
+        .nav-text {
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .sidebar:hover .nav-text,
+        .sidebar.expanded .nav-text {
+            opacity: 1;
+        }
+
+        /* Enhanced Main Content */
+        .main-content {
+            margin-left: 70px;
+            margin-right: 70px;
+            padding: 50px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00ff, #ffff00, #00ffff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: rgbShift 4s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes rgbShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .page-subtitle {
+            font-size: 1.4rem;
+            color: #e0e0e0;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .news-info {
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .info-card h2 {
+            color: #00ffff;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .info-card p {
+            color: #d0d0d0;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .info-card .note {
+            color: #ffaa00;
+            font-style: italic;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 170, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .news-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .no-news {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+            font-size: 1.3rem;
+            font-style: italic;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .news-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff) 1;
+            border-radius: 20px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .news-card:hover::before {
+            left: 100%;
+        }
+
+        .news-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-image: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00) 1;
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+        }
+
+        .news-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ffff;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .news-date {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ffffff;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .news-title {
+            font-size: 1.5rem;
+            color: #00ffff;
+            margin-bottom: 15px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .news-excerpt {
+            color: #d0d0d0;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .news-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #000;
+            font-weight: 700;
+        }
+
+        .news-stats {
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+            width: 100%;
+            text-align: center;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .news-grid {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 3rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 30px 20px;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.expanded {
+                transform: translateX(0);
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .news-card {
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Night Sky Background -->
+    <div class="night-sky">
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Enhanced Animated Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="astronaut" onclick="toggleSidebar()">
+                <canvas class="astronaut-canvas" width="50" height="50" id="astronautCanvas"></canvas>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="home.html" class="nav-item">
+                <div class="nav-icon">🏠</div>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="tournaments.html" class="nav-item">
+                <div class="nav-icon">🏆</div>
+                <span class="nav-text">Tournaments</span>
+            </a>
+            <a href="seasons.html" class="nav-item">
+                <div class="nav-icon">📅</div>
+                <span class="nav-text">Seasons</span>
+            </a>
+            <a href="goresources.html" class="nav-item">
+                <div class="nav-icon">📚</div>
+                <span class="nav-text">Go Resources</span>
+            </a>
+            <a href="announcementcenter.html" class="nav-item">
+                <div class="nav-icon">📢</div>
+                <span class="nav-text">Announcement Center</span>
+            </a>
+            <a href="news.html" class="nav-item active">
+                <div class="nav-icon">📰</div>
+                <span class="nav-text">News</span>
+            </a>
+            <a href="tutor.html" class="nav-item">
+                <div class="nav-icon">👨‍🏫</div>
+                <span class="nav-text">Tutor</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Enhanced Main Content -->
+    <div class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">News</h1>
+            <p class="page-subtitle">Latest announcements from the GalaxyGo community - Each news item disappears every 3 days</p>
+        </header>
+
+        <div class="news-info">
+            <div class="info-card">
+                <h2>📰 News Expiration Notice</h2>
+                <p>All news items in this section are announcements created by our moderators. <strong>Important:</strong> Each news item automatically disappears after 3 days to keep the content fresh and relevant.</p>
+                <p class="note">Note: If you need to submit an announcement, please contact Legond on online-go.com through the Announcement Center.</p>
+            </div>
+        </div>
+
+        <div class="news-container" id="newsContainer">
+            <!-- Dynamic news items will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('expanded');
+        }
+
+        // Enhanced hover effect for sidebar
+        document.getElementById('sidebar').addEventListener('mouseenter', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '280px';
+            }
+        });
+
+        document.getElementById('sidebar').addEventListener('mouseleave', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '70px';
+            }
+        });
+
+        // Display announcements from announcement center with 3-day expiration
+        function displayNews() {
+            const announcements = JSON.parse(localStorage.getItem('announcements') || '[]');
+            const container = document.getElementById('newsContainer');
+            const currentTime = new Date().getTime();
+            const threeDaysInMs = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
+            
+            // Filter out expired announcements (older than 3 days)
+            const validAnnouncements = announcements.filter(announcement => {
+                const announcementTime = new Date(announcement.createdAt).getTime();
+                return (currentTime - announcementTime) < threeDaysInMs;
+            });
+            
+            // Remove expired announcements from localStorage
+            if (validAnnouncements.length !== announcements.length) {
+                localStorage.setItem('announcements', JSON.stringify(validAnnouncements));
+            }
+            
+            if (validAnnouncements.length === 0) {
+                container.innerHTML = '<div class="no-news">No news available at the moment. Please check back later!</div>';
+                return;
+            }
+            
+            let html = '';
+            validAnnouncements.forEach(announcement => {
+                const daysLeft = Math.ceil((threeDaysInMs - (currentTime - new Date(announcement.createdAt).getTime())) / (24 * 60 * 60 * 1000));
+                
+                html += `
+                    <div class="news-card">
+                        <div class="news-image">
+                            <span class="news-category">Announcement</span>
+                            <span class="news-date">${daysLeft}d left</span>
+                            📢
+                        </div>
+                        <h2 class="news-title">${announcement.name}</h2>
+                        <p class="news-excerpt">${announcement.description}</p>
+                        <div class="news-meta">
+                            <div class="news-author">
+                                <div class="author-avatar">MG</div>
+                                <span>Moderator</span>
+                            </div>
+                            <div class="news-stats">
+                                <div class="stat-item">⏰ ${daysLeft} days remaining</div>
+                                <div class="stat-item">📅 ${new Date(announcement.createdAt).toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                        <a href="${announcement.link}" class="cta-button" target="_blank">View Details</a>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Display news on page load
+        displayNews();
+
+        // Refresh news every hour to check for expired items
+        setInterval(displayNews, 60 * 60 * 1000);
+
+        // Gold Astronaut Logo with JavaScript Canvas
+        function drawAstronaut() {
+            const canvas = document.getElementById('astronautCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, 50, 50);
+            
+            // Set gold color and line properties
+            ctx.strokeStyle = '#FFD700';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Helmet (main circle)
+            ctx.beginPath();
+            ctx.arc(25, 20, 15, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Helmet visor
+            ctx.beginPath();
+            ctx.arc(25, 18, 10, 0, Math.PI);
+            ctx.stroke();
+            
+            // Body (rectangle with rounded corners)
+            ctx.beginPath();
+            ctx.roundRect(18, 32, 14, 12, 3);
+            ctx.stroke();
+            
+            // Arms
+            ctx.beginPath();
+            ctx.moveTo(12, 36);
+            ctx.lineTo(18, 36);
+            ctx.moveTo(32, 36);
+            ctx.lineTo(38, 36);
+            ctx.stroke();
+            
+            // Legs
+            ctx.beginPath();
+            ctx.moveTo(20, 44);
+            ctx.lineTo(20, 48);
+            ctx.moveTo(30, 44);
+            ctx.lineTo(30, 48);
+            ctx.stroke();
+            
+            // Chest panel
+            ctx.beginPath();
+            ctx.roundRect(21, 35, 8, 6, 1);
+            ctx.stroke();
+            
+            // Add some sparkles for extra effect
+            const sparkles = [
+                {x: 15, y: 15, size: 1},
+                {x: 35, y: 12, size: 1.5},
+                {x: 10, y: 25, size: 1},
+                {x: 40, y: 30, size: 1.2}
+            ];
+            
+            sparkles.forEach(sparkle => {
+                ctx.beginPath();
+                ctx.arc(sparkle.x, sparkle.y, sparkle.size, 0, 2 * Math.PI);
+                ctx.fillStyle = '#FFD700';
+                ctx.fill();
+            });
+        }
+
+        // Animated astronaut on hover
+        document.querySelector('.astronaut').addEventListener('mouseenter', function() {
+            const canvas = document.getElementById('astronautCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Add glow effect
+            ctx.shadowColor = '#FFD700';
+            ctx.shadowBlur = 15;
+            drawAstronaut();
+            ctx.shadowBlur = 0;
+        });
+
+        document.querySelector('.astronaut').addEventListener('mouseleave', function() {
+            drawAstronaut();
+        });
+
+        // Initial draw
+        window.addEventListener('load', function() {
+            drawAstronaut();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GalaxyGo - Go Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 25%, #2a2a4a 50%, #1a1a3a 75%, #0a0a2a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Night Sky Background */
+        .night-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .galaxy {
+            position: absolute;
+            width: 400px;
+            height: 250px;
+            background: radial-gradient(ellipse, rgba(138, 43, 226, 0.4) 0%, rgba(75, 0, 130, 0.2) 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite;
+            filter: blur(1px);
+        }
+
+        .galaxy:nth-child(1) {
+            top: 8%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+
+        .galaxy:nth-child(2) {
+            top: 65%;
+            right: 10%;
+            animation-delay: 8s;
+        }
+
+        .galaxy:nth-child(3) {
+            bottom: 15%;
+            left: 70%;
+            animation-delay: 15s;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .star:nth-child(4) { top: 12%; left: 8%; animation-delay: 0s; }
+        .star:nth-child(5) { top: 22%; left: 85%; animation-delay: 0.8s; }
+        .star:nth-child(6) { top: 32%; left: 42%; animation-delay: 1.6s; }
+        .star:nth-child(7) { top: 42%; left: 18%; animation-delay: 2.4s; }
+        .star:nth-child(8) { top: 52%; left: 75%; animation-delay: 3.2s; }
+        .star:nth-child(9) { top: 62%; left: 28%; animation-delay: 4s; }
+        .star:nth-child(10) { top: 72%; left: 65%; animation-delay: 4.8s; }
+        .star:nth-child(11) { top: 82%; left: 12%; animation-delay: 5.6s; }
+        .star:nth-child(12) { top: 18%; left: 55%; animation-delay: 6.4s; }
+        .star:nth-child(13) { top: 38%; left: 88%; animation-delay: 7.2s; }
+        .star:nth-child(14) { top: 58%; left: 5%; animation-delay: 8s; }
+        .star:nth-child(15) { top: 78%; left: 92%; animation-delay: 8.8s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            50% { transform: translateY(-25px) rotate(180deg) scale(1.05); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.8); }
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 70px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border-right: 3px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000) 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar:hover {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar.expanded {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar-header {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        }
+
+        /* Astronaut Canvas Styling */
+        .astronaut {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .astronaut-canvas {
+            transition: all 0.3s ease;
+        }
+
+        .astronaut:hover .astronaut-canvas {
+            transform: scale(1.1);
+        }
+
+        .sidebar-nav {
+            padding: 25px 0;
+        }
+
+        .nav-item {
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            margin: 5px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: #00ffff;
+            color: #00ffff;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 255, 255, 0.15);
+            border-left-color: #00ffff;
+            color: #00ffff;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon {
+            transform: scale(1.2);
+        }
+
+        .nav-text {
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .sidebar:hover .nav-text,
+        .sidebar.expanded .nav-text {
+            opacity: 1;
+        }
+
+        /* Enhanced Main Content */
+        .main-content {
+            margin-left: 70px;
+            margin-right: 70px;
+            padding: 50px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00ff, #ffff00, #00ffff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: rgbShift 4s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes rgbShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .page-subtitle {
+            font-size: 1.4rem;
+            color: #e0e0e0;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .admin-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .admin-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-content {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00) 1;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+
+        .admin-title {
+            font-size: 2rem;
+            color: #00ffff;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .admin-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .admin-input:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .admin-submit {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 15px;
+        }
+
+        .admin-submit:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.4);
+        }
+
+        .admin-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .admin-close {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .throttle-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .collection-line {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .collection-line:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 255, 255, 0.4);
+            transform: translateX(5px);
+        }
+
+        .collection-link {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .collection-link:hover {
+            color: #ffff00;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+        }
+
+        .no-collections {
+            font-size: 1.5rem;
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .resources-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .no-resources {
+            text-align: center;
+            color: #888;
+            font-size: 1.2rem;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 20px;
+            margin: 40px auto;
+        }
+
+        .resource-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff) 1;
+            border-radius: 20px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .resource-card:hover::before {
+            left: 100%;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-image: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00) 1;
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .resource-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            display: block;
+            text-align: center;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .resource-title {
+            font-size: 1.8rem;
+            color: #00ffff;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .resource-description {
+            color: #d0d0d0;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .resource-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .resource-link {
+            display: inline-block;
+            padding: 12px 20px;
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        .resource-link:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+            width: 100%;
+            text-align: center;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .resources-grid {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 3rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 30px 20px;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.expanded {
+                transform: translateX(0);
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .resource-card {
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Night Sky Background -->
+    <div class="night-sky">
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Enhanced Animated Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="astronaut" onclick="toggleSidebar()">
+                <canvas class="astronaut-canvas" width="50" height="50" id="astronautCanvas"></canvas>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="home.html" class="nav-item">
+                <div class="nav-icon">🏠</div>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="tournaments.html" class="nav-item">
+                <div class="nav-icon">🏆</div>
+                <span class="nav-text">Tournaments</span>
+            </a>
+            <a href="seasons.html" class="nav-item">
+                <div class="nav-icon">📅</div>
+                <span class="nav-text">Seasons</span>
+            </a>
+            <a href="goresources.html" class="nav-item active">
+                <div class="nav-icon">📚</div>
+                <span class="nav-text">Go Resources</span>
+            </a>
+            <a href="announcementcenter.html" class="nav-item">
+                <div class="nav-icon">📢</div>
+                <span class="nav-text">Announcement Center</span>
+            </a>
+            <a href="news.html" class="nav-item">
+                <div class="nav-icon">📰</div>
+                <span class="nav-text">News</span>
+            </a>
+            <a href="tutor.html" class="nav-item">
+                <div class="nav-icon">👨‍🏫</div>
+                <span class="nav-text">Tutor</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Enhanced Main Content -->
+    <div class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">Go Resources</h1>
+            <p class="page-subtitle">Your comprehensive collection of Go learning materials and tools</p>
+        </header>
+
+        <div class="resources-container" id="resourcesContainer">
+            <div class="no-resources">No resources available at the moment. Please check back later!</div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('expanded');
+        }
+
+        // Enhanced hover effect for sidebar
+        document.getElementById('sidebar').addEventListener('mouseenter', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '280px';
+            }
+        });
+
+        document.getElementById('sidebar').addEventListener('mouseleave', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '70px';
+            }
+        });
+
+        // Server-side admin system with password throttling
+        let loginAttempts = 0;
+        let lastLoginAttempt = 0;
+        const THROTTLE_DURATION = 300000; // 5 minutes in milliseconds
+        const MAX_ATTEMPTS = 5;
+
+        // Admin functionality
+        function showAdminModal() {
+            document.getElementById('adminModal').classList.add('show');
+            document.getElementById('throttleMessage').style.display = 'none';
+            document.getElementById('adminSubmit').disabled = false;
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('show');
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('throttleMessage').style.display = 'none';
+        }
+
+        function closeAddCollectionModal() {
+            document.getElementById('addCollectionModal').classList.remove('show');
+            document.getElementById('collectionName').value = '';
+            document.getElementById('collectionLink').value = '';
+            document.getElementById('collectionDescription').value = '';
+        }
+
+        function checkPassword() {
+            const inputPassword = document.getElementById('adminPassword').value;
+            const correctPassword = '20110119hkpukwc131';
+            const currentTime = Date.now();
+            
+            // Check if throttled
+            if (loginAttempts >= MAX_ATTEMPTS) {
+                if (currentTime - lastLoginAttempt < THROTTLE_DURATION) {
+                    const remainingTime = Math.ceil((THROTTLE_DURATION - (currentTime - lastLoginAttempt)) / 1000 / 60);
+                    document.getElementById('throttleMessage').textContent = `Too many failed attempts. Please try again in ${remainingTime} minutes.`;
+                    document.getElementById('throttleMessage').style.display = 'block';
+                    document.getElementById('adminSubmit').disabled = true;
+                    return;
+                } else {
+                    // Reset throttling after time period
+                    loginAttempts = 0;
+                }
+            }
+            
+            if (inputPassword === correctPassword) {
+                loginAttempts = 0; // Reset on successful login
+                closeAdminModal();
+                document.getElementById('addCollectionModal').classList.add('show');
+            } else {
+                loginAttempts++;
+                lastLoginAttempt = currentTime;
+                
+                if (loginAttempts >= MAX_ATTEMPTS) {
+                    document.getElementById('throttleMessage').textContent = 'Too many failed attempts. Please try again in 5 minutes.';
+                    document.getElementById('throttleMessage').style.display = 'block';
+                    document.getElementById('adminSubmit').disabled = true;
+                } else {
+                    document.getElementById('throttleMessage').textContent = `Incorrect password. ${MAX_ATTEMPTS - loginAttempts} attempts remaining.`;
+                    document.getElementById('throttleMessage').style.display = 'block';
+                }
+                
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        function addCollection() {
+            const name = document.getElementById('collectionName').value.trim();
+            const link = document.getElementById('collectionLink').value.trim();
+            const description = document.getElementById('collectionDescription').value.trim();
+            
+            if (!name || !link) {
+                alert('Please fill in at least the name and link fields.');
+                return;
+            }
+            
+            // Save collection to localStorage
+            const collections = JSON.parse(localStorage.getItem('collections') || '[]');
+            collections.push({ name, link, description });
+            localStorage.setItem('collections', JSON.stringify(collections));
+            
+            // Close modal and refresh display
+            closeAddCollectionModal();
+            displayCollections();
+        }
+
+        function displayCollections() {
+            const collections = JSON.parse(localStorage.getItem('collections') || '[]');
+            const container = document.getElementById('collectionsContainer');
+            
+            if (collections.length === 0) {
+                container.innerHTML = '<div class="no-collections">No collections available. Please check back later!</div>';
+                return;
+            }
+            
+            let html = '';
+            collections.forEach(collection => {
+                if (collection.description) {
+                    // Full collection card with description
+                    html += `
+                        <div class="resource-card">
+        function displayCollections() {
+            const container = document.getElementById('resourcesContainer');
+            container.innerHTML = '<div class="no-resources">No resources available at the moment. Please check back later!</div>';
+        }
+
+        // Display collections on page load
+        displayCollections();
+
+        // Gold Astronaut Logo with JavaScript Canvas
+        function drawAstronaut() {
+            const canvas = document.getElementById('astronautCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, 50, 50);
+            
+            // Set gold color and line properties
+            ctx.strokeStyle = '#FFD700';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Helmet (main circle)
+            ctx.beginPath();
+            ctx.arc(25, 20, 15, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Helmet visor
+            ctx.beginPath();
+            ctx.arc(25, 18, 10, 0, Math.PI);
+            ctx.stroke();
+            
+            // Body (rectangle with rounded corners)
+            ctx.beginPath();
+            ctx.roundRect(18, 32, 14, 12, 3);
+            ctx.stroke();
+            
+            // Arms
+            ctx.beginPath();
+            ctx.moveTo(12, 36);
+            ctx.lineTo(18, 36);
+            ctx.moveTo(32, 36);
+            ctx.lineTo(38, 36);
+            ctx.stroke();
+            
+            // Legs
+            ctx.beginPath();
+            ctx.moveTo(20, 44);
+            ctx.lineTo(20, 48);
+            ctx.moveTo(30, 44);
+            ctx.lineTo(30, 48);
+            ctx.stroke();
+            
+            // Chest panel
+            ctx.beginPath();
+            ctx.roundRect(21, 35, 8, 6, 1);
+            ctx.stroke();
+            
+            // Add some sparkles for extra effect
+            const sparkles = [
+                {x: 15, y: 15, size: 1},
+                {x: 35, y: 12, size: 1.5},
+                {x: 10, y: 25, size: 1},
+                {x: 40, y: 30, size: 1.2}
+            ];
+            
+            sparkles.forEach(sparkle => {
+                ctx.beginPath();
+                ctx.arc(sparkle.x, sparkle.y, sparkle.size, 0, 2 * Math.PI);
+                ctx.fillStyle = '#FFD700';
+                ctx.fill();
+            });
+        }
+
+        // Animated astronaut on hover
+        document.querySelector('.astronaut').addEventListener('mouseenter', function() {
+            const canvas = document.getElementById('astronautCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Add glow effect
+            ctx.shadowColor = '#FFD700';
+            ctx.shadowBlur = 15;
+            drawAstronaut();
+            ctx.shadowBlur = 0;
+        });
+
+        document.querySelector('.astronaut').addEventListener('mouseleave', function() {
+            drawAstronaut();
+        });
+
+        // Initial draw
+        window.addEventListener('load', function() {
+            drawAstronaut();
+        });
+    </script>
+</body>
+</html>

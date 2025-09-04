@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GalaxyGo - Tournaments</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 25%, #2a2a4a 50%, #1a1a3a 75%, #0a0a2a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Night Sky Background */
+        .night-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .galaxy {
+            position: absolute;
+            width: 400px;
+            height: 250px;
+            background: radial-gradient(ellipse, rgba(138, 43, 226, 0.4) 0%, rgba(75, 0, 130, 0.2) 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite;
+            filter: blur(1px);
+        }
+
+        .galaxy:nth-child(1) {
+            top: 8%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+
+        .galaxy:nth-child(2) {
+            top: 65%;
+            right: 10%;
+            animation-delay: 8s;
+        }
+
+        .galaxy:nth-child(3) {
+            bottom: 15%;
+            left: 70%;
+            animation-delay: 15s;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .star:nth-child(4) { top: 12%; left: 8%; animation-delay: 0s; }
+        .star:nth-child(5) { top: 22%; left: 85%; animation-delay: 0.8s; }
+        .star:nth-child(6) { top: 32%; left: 42%; animation-delay: 1.6s; }
+        .star:nth-child(7) { top: 42%; left: 18%; animation-delay: 2.4s; }
+        .star:nth-child(8) { top: 52%; left: 75%; animation-delay: 3.2s; }
+        .star:nth-child(9) { top: 62%; left: 28%; animation-delay: 4s; }
+        .star:nth-child(10) { top: 72%; left: 65%; animation-delay: 4.8s; }
+        .star:nth-child(11) { top: 82%; left: 12%; animation-delay: 5.6s; }
+        .star:nth-child(12) { top: 18%; left: 55%; animation-delay: 6.4s; }
+        .star:nth-child(13) { top: 38%; left: 88%; animation-delay: 7.2s; }
+        .star:nth-child(14) { top: 58%; left: 5%; animation-delay: 8s; }
+        .star:nth-child(15) { top: 78%; left: 92%; animation-delay: 8.8s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            50% { transform: translateY(-25px) rotate(180deg) scale(1.05); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.8); }
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 70px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border-right: 3px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000) 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar:hover {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar.expanded {
+            width: 280px;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .sidebar-header {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        }
+
+        /* Astronaut Canvas Styling */
+        .astronaut {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .astronaut-canvas {
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .astronaut:hover .astronaut-canvas {
+            transform: scale(1.1);
+        }
+
+        .sidebar-nav {
+            padding: 25px 0;
+        }
+
+        .nav-item {
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            margin: 5px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: #00ffff;
+            color: #00ffff;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 255, 255, 0.15);
+            border-left-color: #00ffff;
+            color: #00ffff;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon {
+            transform: scale(1.2);
+        }
+
+        .nav-text {
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .sidebar:hover .nav-text,
+        .sidebar.expanded .nav-text {
+            opacity: 1;
+        }
+
+        /* Enhanced Main Content */
+        .main-content {
+            margin-left: 70px;
+            margin-right: 70px;
+            padding: 50px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00ff, #ffff00, #00ffff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: rgbShift 4s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes rgbShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .page-subtitle {
+            font-size: 1.4rem;
+            color: #e0e0e0;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .tournament-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tournament-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .tournament-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .tournament-title {
+            font-size: 1.4rem;
+            color: #00ffff;
+            font-weight: 600;
+        }
+
+        .tournament-description {
+            color: #d0d0d0;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .tournament-link {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tournament-link:hover {
+            color: #ffff00;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+        }
+
+        .tournaments-container {
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .no-tournaments {
+            font-size: 1.5rem;
+            color: #888;
+            font-style: italic;
+        }
+
+        .tournament-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .tournament-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff) 1;
+            border-radius: 20px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .tournament-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .tournament-section:hover::before {
+            left: 100%;
+        }
+
+        .tournament-section:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-image: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00) 1;
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .section-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            display: block;
+            text-align: center;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #00ffff;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .section-description {
+            color: #d0d0d0;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+            width: 100%;
+            text-align: center;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .tournament-sections {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 3rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 30px 20px;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.expanded {
+                transform: translateX(0);
+            }
+
+            .tournament-sections {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .tournament-section {
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Night Sky Background -->
+    <div class="night-sky">
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="galaxy"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Enhanced Animated Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="astronaut" onclick="toggleSidebar()">
+                <canvas class="astronaut-canvas" width="50" height="50" id="astronautCanvas"></canvas>
+                <div id="astronautFallback" style="display: none; font-size: 24px; color: #FFD700;">👨‍🚀</div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="home.html" class="nav-item">
+                <div class="nav-icon">🏠</div>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="tournaments.html" class="nav-item active">
+                <div class="nav-icon">🏆</div>
+                <span class="nav-text">Tournaments</span>
+            </a>
+            <a href="seasons.html" class="nav-item">
+                <div class="nav-icon">📅</div>
+                <span class="nav-text">Seasons</span>
+            </a>
+            <a href="goresources.html" class="nav-item">
+                <div class="nav-icon">📚</div>
+                <span class="nav-text">Go Resources</span>
+            </a>
+            <a href="announcementcenter.html" class="nav-item">
+                <div class="nav-icon">📢</div>
+                <span class="nav-text">Announcement Center</span>
+            </a>
+            <a href="news.html" class="nav-item">
+                <div class="nav-icon">📰</div>
+                <span class="nav-text">News</span>
+            </a>
+            <a href="tutor.html" class="nav-item">
+                <div class="nav-icon">👨‍🏫</div>
+                <span class="nav-text">Tutor</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Enhanced Main Content -->
+    <div class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">Tournaments</h1>
+            <p class="page-subtitle">Compete in exciting Go tournaments and prove your skills against players from around the world</p>
+        </header>
+
+        <div class="tournaments-container" id="tournamentsContainer">
+            <div class="tournament-section">
+                <span class="section-icon">🌟</span>
+                <h2 class="section-title">2026-27 GalaxyGo Season</h2>
+                <div class="section-description">
+🕛 Start Time: January 1, 2026, 12:00 AM<br>
+⏳ Game Speed: Correspondence<br>
+⏰ Time Control: 10 days main time + 5 periods of 1 day 12 hours Byo-Yomi<br>
+📏 Rules: Japanese, 19x19 board, no handicap<br>
+🎯 Rank Restriction: 25 Kyu – 9 Dan+ (Provisional players allowed)<br>
+🏆 Tournament Type: Swiss (4 to 10,000 players)<br>
+🎲 Initial Pairing: Random<br>
+🔄 Subsequent Pairing: Slaughter<br>
+<br>
+🔥 The top 64 players from the Swiss tournament will advance to a Single Elimination stage!<br>
+<br>
+🎟️ If you qualify, you will receive an invitation to an invitation-only tournament where these top players compete.<br>
+<br>
+⚠️ If you do not receive an invitation or fail to accept it, the next highest-ranked player on the pool table will take your spot.<br>
+<br>
+📢 IMPORTANT: To get announcements and updates, please join our group here: <a href="https://online-go.com/group/15675" target="_blank">GalaxyGo Group</a><br>
+Tournament link: <a href="https://online-go.com/tournaments/132102" target="_blank">2026-27 GalaxyGo Season Tournament</a><br>
+Group link: <a href="https://online-go.com/group/15675" target="_blank">GalaxyGo Group</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('expanded');
+        }
+
+        // Enhanced hover effect for sidebar
+        document.getElementById('sidebar').addEventListener('mouseenter', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '280px';
+            }
+        });
+
+        document.getElementById('sidebar').addEventListener('mouseleave', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '70px';
+            }
+        });
+
+        // Tournament data
+        const tournamentsData = [
+            // No tournaments currently - will be added when real ones are available
+        ];
+
+        function displayTournaments() {
+            const container = document.getElementById('tournamentsContainer');
+            
+            if (tournamentsData.length === 0) {
+                container.innerHTML = '<div class="no-tournaments">No tournaments currently scheduled. Please check back later!</div>';
+                return;
+            }
+            
+            let html = '';
+            tournamentsData.forEach(tournament => {
+                html += `
+                    <div class="tournament-item">
+                        <div class="tournament-header">
+                            <h3 class="tournament-title">
+                                <a href="${tournament.link}" target="_blank" style="color: #64b5f6; text-decoration: none;">${tournament.name}</a>
+                            </h3>
+                        </div>
+                        <p class="tournament-description">${tournament.description}</p>
+                        <a href="${tournament.link}" class="tournament-link" target="_blank">Join Tournament →</a>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Display tournaments on page load
+        displayTournaments();
+    </script>
+        // Server-side admin system with password throttling
+        let loginAttempts = 0;
+        let lastLoginAttempt = 0;
+        const THROTTLE_DURATION = 300000; // 5 minutes in milliseconds
+        const MAX_ATTEMPTS = 5;
+        
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('expanded');
+        }
+
+        // Enhanced hover effect for sidebar
+        document.getElementById('sidebar').addEventListener('mouseenter', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '280px';
+            }
+        });
+
+        document.getElementById('sidebar').addEventListener('mouseleave', function() {
+            if (!this.classList.contains('expanded')) {
+                this.style.width = '70px';
+            }
+        });
+
+        // Admin functionality
+        function showAdminModal() {
+            document.getElementById('adminModal').classList.add('show');
+            document.getElementById('throttleMessage').style.display = 'none';
+            document.getElementById('adminSubmit').disabled = false;
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('show');
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('throttleMessage').style.display = 'none';
+        }
+
+        function closeAddTournamentModal() {
+            document.getElementById('addTournamentModal').classList.remove('show');
+            document.getElementById('tournamentName').value = '';
+            document.getElementById('tournamentLink').value = '';
+            document.getElementById('tournamentDescription').value = '';
+        }
+
+        function closeEditTournamentModal() {
+            document.getElementById('editTournamentModal').classList.remove('show');
+            document.getElementById('editTournamentId').value = '';
+            document.getElementById('editTournamentName').value = '';
+            document.getElementById('editTournamentLink').value = '';
+            document.getElementById('editTournamentDescription').value = '';
+        }
+
+        function checkPassword() {
+            const inputPassword = document.getElementById('adminPassword').value;
+            const correctPassword = '20110119hkpukwc131';
+            const currentTime = Date.now();
+            
+            // Check if throttled
+            if (loginAttempts >= MAX_ATTEMPTS) {
+                if (currentTime - lastLoginAttempt < THROTTLE_DURATION) {
+                    const remainingTime = Math.ceil((THROTTLE_DURATION - (currentTime - lastLoginAttempt)) / 1000 / 60);
+                    document.getElementById('throttleMessage').textContent = `Too many failed attempts. Please try again in ${remainingTime} minutes.`;
+                    document.getElementById('throttleMessage').style.display = 'block';
+                    document.getElementById('adminSubmit').disabled = true;
+                    return;
+                } else {
+                    // Reset throttling after time period
+                    loginAttempts = 0;
+                }
+            }
+            
+            if (inputPassword === correctPassword) {
+                loginAttempts = 0; // Reset on successful login
+                closeAdminModal();
+                document.getElementById('addTournamentModal').classList.add('show');
+            } else {
+                loginAttempts++;
+                lastLoginAttempt = currentTime;
+                
+                if (loginAttempts >= MAX_ATTEMPTS) {
+                    document.getElementById('throttleMessage').textContent = 'Too many failed attempts. Please try again in 5 minutes.';
+                    document.getElementById('throttleMessage').style.display = 'block';
+                    document.getElementById('adminSubmit').disabled = true;
+                } else {
+                    document.getElementById('throttleMessage').textContent = `Incorrect password. ${MAX_ATTEMPTS - loginAttempts} attempts remaining.`;
+                    document.getElementById('throttleMessage').style.display = 'block';
+                }
+                
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        function addTournament() {
+            const name = document.getElementById('tournamentName').value.trim();
+            const link = document.getElementById('tournamentLink').value.trim();
+            const description = document.getElementById('tournamentDescription').value.trim();
+            
+            if (!name || !link || !description) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            // Save tournament to localStorage with ID
+            const tournaments = JSON.parse(localStorage.getItem('tournaments') || '[]');
+            const newId = tournaments.length > 0 ? Math.max(...tournaments.map(t => t.id)) + 1 : 1;
+            tournaments.push({ id: newId, name, link, description });
+            localStorage.setItem('tournaments', JSON.stringify(tournaments));
+            
+            // Close modal and refresh display
+            closeAddTournamentModal();
+            displayTournaments();
+        }
+
+        function editTournament(id) {
+            const tournaments = JSON.parse(localStorage.getItem('tournaments') || '[]');
+            const tournament = tournaments.find(t => t.id === id);
+            if (!tournament) return;
+            
+            document.getElementById('editTournamentId').value = tournament.id;
+            document.getElementById('editTournamentName').value = tournament.name;
+            document.getElementById('editTournamentLink').value = tournament.link;
+            document.getElementById('editTournamentDescription').value = tournament.description;
+            
+            document.getElementById('editTournamentModal').classList.add('show');
+        }
+
+        function updateTournament() {
+            const id = parseInt(document.getElementById('editTournamentId').value);
+            const name = document.getElementById('editTournamentName').value.trim();
+            const link = document.getElementById('editTournamentLink').value.trim();
+            const description = document.getElementById('editTournamentDescription').value.trim();
+            
+            if (!name || !link || !description) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            // Update in localStorage
+            const tournaments = JSON.parse(localStorage.getItem('tournaments') || '[]');
+            const tournamentIndex = tournaments.findIndex(t => t.id === id);
+            if (tournamentIndex !== -1) {
+                tournaments[tournamentIndex] = {
+                    ...tournaments[tournamentIndex],
+                    name: name,
+                    link: link,
+                    description: description
+                };
+                localStorage.setItem('tournaments', JSON.stringify(tournaments));
+            }
+            
+            closeEditTournamentModal();
+            displayTournaments();
+        }
+
+        // Gold Astronaut Logo with JavaScript Canvas
+        function drawAstronaut() {
+            const canvas = document.getElementById('astronautCanvas');
+            const fallback = document.getElementById('astronautFallback');
+            
+            if (!canvas) {
+                if (fallback) fallback.style.display = 'block';
+                return;
+            }
+            
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                if (fallback) fallback.style.display = 'block';
+                return;
+            }
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, 50, 50);
+            
+            // Set gold color and line properties
+            ctx.strokeStyle = '#FFD700';
+            ctx.fillStyle = '#FFD700';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Helmet (main circle)
+            ctx.beginPath();
+            ctx.arc(25, 20, 15, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Helmet visor
+            ctx.beginPath();
+            ctx.arc(25, 18, 10, 0, Math.PI);
+            ctx.stroke();
+            
+            // Body (simple rectangle)
+            ctx.beginPath();
+            ctx.rect(18, 32, 14, 12);
+            ctx.stroke();
+            
+            // Arms
+            ctx.beginPath();
+            ctx.moveTo(12, 36);
+            ctx.lineTo(18, 36);
+            ctx.moveTo(32, 36);
+            ctx.lineTo(38, 36);
+            ctx.stroke();
+            
+            // Legs
+            ctx.beginPath();
+            ctx.moveTo(20, 44);
+            ctx.lineTo(20, 48);
+            ctx.moveTo(30, 44);
+            ctx.lineTo(30, 48);
+            ctx.stroke();
+            
+            // If we got here, hide the fallback
+            if (fallback) fallback.style.display = 'none';
+        }
+
+        // Animated astronaut on hover
+        document.querySelector('.astronaut').addEventListener('mouseenter', function() {
+            const canvas = document.getElementById('astronautCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Add glow effect
+            ctx.shadowColor = '#FFD700';
+            ctx.shadowBlur = 15;
+            drawAstronaut();
+            ctx.shadowBlur = 0;
+        });
+
+        document.querySelector('.astronaut').addEventListener('mouseleave', function() {
+            drawAstronaut();
+        });
+
+        // Initial draw
+        window.addEventListener('load', function() {
+            drawAstronaut();
+        });
+        
+        // Also try drawing when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            drawAstronaut();
+        });
+        
+        // And try drawing immediately
+        setTimeout(drawAstronaut, 100);
+
+        // Display tournaments on page load
+        displayTournaments();
+    </script>
+</body>
+</html>
