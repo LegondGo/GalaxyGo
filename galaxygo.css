@@ -1,0 +1,684 @@
+/* ========================================
+   UNIVERSE THEME CSS FOR ONLINE-GO.COM
+   Extensive Animations & Cosmic Effects
+======================================== */
+
+/* Import Google Fonts for futuristic typography */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700;900&family=Space+Mono:wght@400;700&display=swap');
+
+/* ========================================
+   CSS VARIABLES & ROOT STYLES
+======================================== */
+:root {
+  /* Cosmic Color Palette */
+  --deep-space: #0a0a0f;
+  --nebula-purple: #2d1b69;
+  --cosmic-blue: #1a237e;
+  --star-white: #ffffff;
+  --plasma-pink: #e91e63;
+  --solar-orange: #ff5722;
+  --galaxy-teal: #00bcd4;
+  --void-black: #000000;
+  --asteroid-gray: #37474f;
+  --comet-cyan: #00e5ff;
+  --supernova-gold: #ffc107;
+  
+  /* Animation Durations */
+  --slow-orbit: 20s;
+  --medium-orbit: 10s;
+  --fast-orbit: 5s;
+  --pulse-speed: 2s;
+  --twinkle-speed: 3s;
+  
+  /* Cosmic Gradients */
+  --nebula-gradient: linear-gradient(135deg, var(--nebula-purple) 0%, var(--cosmic-blue) 50%, var(--deep-space) 100%);
+  --galaxy-gradient: radial-gradient(ellipse at center, var(--cosmic-blue) 0%, var(--nebula-purple) 40%, var(--deep-space) 100%);
+  --plasma-gradient: linear-gradient(45deg, var(--plasma-pink), var(--solar-orange), var(--galaxy-teal));
+}
+
+/* ========================================
+   COSMIC KEYFRAME ANIMATIONS
+======================================== */
+
+/* Floating in Zero Gravity */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(1deg); }
+  50% { transform: translateY(-20px) rotate(-1deg); }
+  75% { transform: translateY(-10px) rotate(1deg); }
+}
+
+/* Orbital Motion */
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(50px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
+}
+
+/* Large Orbital Motion */
+@keyframes large-orbit {
+  0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+}
+
+/* Star Twinkling */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Pulsing Cosmic Energy */
+@keyframes cosmic-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px var(--galaxy-teal), inset 0 0 20px var(--cosmic-blue);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 40px var(--comet-cyan), inset 0 0 40px var(--nebula-purple);
+    transform: scale(1.05);
+  }
+}
+
+/* Nebula Flowing Motion */
+@keyframes nebula-flow {
+  0% { transform: translateX(-100%) rotate(0deg); }
+  50% { transform: translateX(0%) rotate(180deg); }
+  100% { transform: translateX(100%) rotate(360deg); }
+}
+
+/* Plasma Energy Wave */
+@keyframes plasma-wave {
+  0%, 100% { 
+    border-color: var(--plasma-pink);
+    box-shadow: 0 0 15px var(--plasma-pink);
+  }
+  33% { 
+    border-color: var(--solar-orange);
+    box-shadow: 0 0 25px var(--solar-orange);
+  }
+  66% { 
+    border-color: var(--galaxy-teal);
+    box-shadow: 0 0 20px var(--galaxy-teal);
+  }
+}
+
+/* Meteor Streak */
+@keyframes meteor-streak {
+  0% { 
+    transform: translateX(-200px) translateY(-200px) rotate(-45deg);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { 
+    transform: translateX(200px) translateY(200px) rotate(-45deg);
+    opacity: 0;
+  }
+}
+
+/* Quantum Shimmer */
+@keyframes quantum-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Spiral Galaxy Rotation */
+@keyframes galaxy-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Wormhole Effect */
+@keyframes wormhole {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    border-radius: 50%;
+  }
+  25% { 
+    transform: scale(0.8) rotate(90deg);
+    border-radius: 30%;
+  }
+  50% { 
+    transform: scale(1.2) rotate(180deg);
+    border-radius: 10%;
+  }
+  75% { 
+    transform: scale(0.9) rotate(270deg);
+    border-radius: 40%;
+  }
+}
+
+/* Supernova Explosion */
+@keyframes supernova {
+  0% { 
+    transform: scale(1);
+    box-shadow: 0 0 10px var(--supernova-gold);
+  }
+  50% { 
+    transform: scale(1.5);
+    box-shadow: 0 0 50px var(--supernova-gold), 0 0 100px var(--solar-orange);
+  }
+  100% { 
+    transform: scale(1);
+    box-shadow: 0 0 10px var(--supernova-gold);
+  }
+}
+
+/* Gravitational Wave */
+@keyframes gravity-wave {
+  0%, 100% { transform: scaleX(1) scaleY(1); }
+  25% { transform: scaleX(1.1) scaleY(0.9); }
+  50% { transform: scaleX(0.9) scaleY(1.1); }
+  75% { transform: scaleX(1.05) scaleY(0.95); }
+}
+
+/* Holographic Flicker */
+@keyframes hologram {
+  0%, 100% { opacity: 1; filter: hue-rotate(0deg); }
+  25% { opacity: 0.8; filter: hue-rotate(90deg); }
+  50% { opacity: 0.9; filter: hue-rotate(180deg); }
+  75% { opacity: 0.7; filter: hue-rotate(270deg); }
+}
+
+/* Cosmic Zoom */
+@keyframes cosmic-zoom {
+  0%, 100% { transform: scale(1) translateZ(0); }
+  50% { transform: scale(1.1) translateZ(10px); }
+}
+
+/* ========================================
+   UNIVERSAL RESET & BASE STYLES
+======================================== */
+
+* {
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+*:hover {
+  transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ========================================
+   TYPOGRAPHY ANIMATIONS
+======================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  color: var(--star-white);
+  text-shadow: 0 0 10px var(--galaxy-teal);
+  animation: cosmic-pulse var(--pulse-speed) infinite ease-in-out;
+}
+
+h1 {
+  animation: cosmic-pulse var(--pulse-speed) infinite ease-in-out,
+             float 6s infinite ease-in-out;
+}
+
+h2:hover {
+  animation: supernova 1s ease-in-out,
+             gravity-wave 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+p, span, div {
+  font-family: 'Space Mono', monospace;
+  color: var(--star-white);
+  animation: float var(--slow-orbit) infinite ease-in-out;
+}
+
+/* Holographic Text Effect */
+.holographic-text {
+  background: var(--plasma-gradient);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: quantum-shimmer 3s linear infinite,
+             hologram 4s infinite ease-in-out;
+}
+
+/* ========================================
+   INTERACTIVE ELEMENTS
+======================================== */
+
+/* Buttons with Cosmic Energy */
+button, .btn, input[type="submit"], input[type="button"] {
+  font-family: 'Orbitron', monospace;
+  font-weight: 600;
+  border: 2px solid var(--galaxy-teal);
+  background: transparent;
+  color: var(--star-white);
+  padding: 12px 24px;
+  border-radius: 25px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation: cosmic-pulse var(--pulse-speed) infinite ease-in-out;
+}
+
+button:before, .btn:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: var(--plasma-gradient);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: -1;
+}
+
+button:hover:before, .btn:hover:before {
+  width: 300px;
+  height: 300px;
+  animation: supernova 0.6s ease-out;
+}
+
+button:hover, .btn:hover {
+  color: var(--void-black);
+  border-color: var(--comet-cyan);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 229, 255, 0.3);
+  animation: gravity-wave 0.3s ease-in-out,
+             cosmic-zoom 0.3s ease-in-out;
+}
+
+button:active, .btn:active {
+  transform: translateY(0px) scale(0.95);
+  animation: supernova 0.2s ease-out;
+}
+
+/* Click Ripple Effect */
+button:active:after, .btn:active:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  0% { width: 0; height: 0; opacity: 1; }
+  100% { width: 200px; height: 200px; opacity: 0; }
+}
+
+/* ========================================
+   FORM ELEMENTS
+======================================== */
+
+input, textarea, select {
+  font-family: 'Space Mono', monospace;
+  background: rgba(26, 35, 126, 0.1);
+  border: 2px solid var(--cosmic-blue);
+  color: var(--star-white);
+  padding: 10px 15px;
+  border-radius: 15px;
+  animation: float var(--slow-orbit) infinite ease-in-out;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--galaxy-teal);
+  box-shadow: 0 0 20px var(--galaxy-teal);
+  animation: cosmic-pulse var(--pulse-speed) infinite ease-in-out,
+             cosmic-zoom 0.3s ease-in-out;
+}
+
+input:hover, textarea:hover, select:hover {
+  border-color: var(--comet-cyan);
+  animation: plasma-wave 2s infinite ease-in-out;
+}
+
+/* ========================================
+   NAVIGATION ELEMENTS
+======================================== */
+
+nav, .nav, .navigation {
+  animation: float 8s infinite ease-in-out;
+}
+
+nav ul, .nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  animation: gravity-wave 10s infinite ease-in-out;
+}
+
+nav li, .nav li {
+  display: inline-block;
+  margin: 0 10px;
+  animation: orbit var(--medium-orbit) infinite linear;
+}
+
+nav a, .nav a {
+  color: var(--star-white);
+  text-decoration: none;
+  font-family: 'Orbitron', monospace;
+  font-weight: 400;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  animation: twinkle var(--twinkle-speed) infinite ease-in-out;
+}
+
+nav a:hover, .nav a:hover {
+  border-color: var(--galaxy-teal);
+  background: rgba(0, 188, 212, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 188, 212, 0.3);
+  animation: supernova 0.5s ease-out,
+             hologram 2s infinite ease-in-out;
+}
+
+nav a:active, .nav a:active {
+  transform: translateY(0px) scale(0.98);
+  animation: wormhole 0.4s ease-in-out;
+}
+
+/* ========================================
+   CARD & CONTAINER ELEMENTS
+======================================== */
+
+.card, .container, .box, .panel {
+  border: 1px solid var(--cosmic-blue);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 10px;
+  background: rgba(10, 10, 15, 0.8);
+  animation: float var(--slow-orbit) infinite ease-in-out,
+             cosmic-pulse calc(var(--pulse-speed) * 2) infinite ease-in-out;
+}
+
+.card:hover, .container:hover, .box:hover, .panel:hover {
+  border-color: var(--galaxy-teal);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 188, 212, 0.2);
+  animation: gravity-wave 0.5s ease-in-out,
+             hologram 3s infinite ease-in-out;
+}
+
+/* ========================================
+   SPECIAL COSMIC CLASSES
+======================================== */
+
+/* Orbital Elements */
+.orbital {
+  animation: orbit var(--medium-orbit) infinite linear;
+}
+
+.large-orbital {
+  animation: large-orbit var(--slow-orbit) infinite linear;
+}
+
+.reverse-orbital {
+  animation: orbit var(--medium-orbit) infinite linear reverse;
+}
+
+/* Floating Elements */
+.floating {
+  animation: float var(--fast-orbit) infinite ease-in-out;
+}
+
+.slow-float {
+  animation: float var(--slow-orbit) infinite ease-in-out;
+}
+
+/* Pulsing Elements */
+.pulsing {
+  animation: cosmic-pulse var(--pulse-speed) infinite ease-in-out;
+}
+
+.fast-pulse {
+  animation: cosmic-pulse 1s infinite ease-in-out;
+}
+
+/* Twinkling Elements */
+.twinkling {
+  animation: twinkle var(--twinkle-speed) infinite ease-in-out;
+}
+
+.fast-twinkle {
+  animation: twinkle 1s infinite ease-in-out;
+}
+
+/* Holographic Elements */
+.holographic {
+  animation: hologram 4s infinite ease-in-out;
+}
+
+/* Meteor Effect */
+.meteor {
+  animation: meteor-streak 3s infinite linear;
+}
+
+/* Galaxy Spin */
+.galaxy-spin {
+  animation: galaxy-spin 15s infinite linear;
+}
+
+/* Wormhole Effect */
+.wormhole {
+  animation: wormhole 6s infinite ease-in-out;
+}
+
+/* Supernova Effect */
+.supernova {
+  animation: supernova 2s infinite ease-in-out;
+}
+
+/* Gravitational Wave */
+.gravity-wave {
+  animation: gravity-wave 4s infinite ease-in-out;
+}
+
+/* ========================================
+   HOVER EFFECTS & INTERACTIONS
+======================================== */
+
+/* Cosmic Hover Effects */
+.cosmic-hover:hover {
+  animation: supernova 0.8s ease-out,
+             cosmic-zoom 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.plasma-hover:hover {
+  animation: plasma-wave 1s ease-in-out,
+             gravity-wave 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+.orbital-hover:hover {
+  animation: orbit 2s ease-in-out,
+             float 1s ease-in-out;
+  cursor: pointer;
+}
+
+.hologram-hover:hover {
+  animation: hologram 1s ease-in-out,
+             quantum-shimmer 1.5s linear;
+  cursor: pointer;
+}
+
+/* ========================================
+   CLICK EFFECTS
+======================================== */
+
+/* Satisfying Click Animations */
+.click-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.click-effect:active {
+  animation: supernova 0.3s ease-out,
+             gravity-wave 0.2s ease-in-out;
+}
+
+.click-effect:active:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, var(--comet-cyan) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: click-ripple 0.6s ease-out;
+}
+
+@keyframes click-ripple {
+  0% { 
+    width: 0; 
+    height: 0; 
+    opacity: 1; 
+  }
+  100% { 
+    width: 300px; 
+    height: 300px; 
+    opacity: 0; 
+  }
+}
+
+/* Sound-like Visual Effect */
+.sound-click:active {
+  animation: sound-wave 0.4s ease-out;
+}
+
+@keyframes sound-wave {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.1); box-shadow: 0 0 20px var(--galaxy-teal); }
+  50% { transform: scale(0.95); box-shadow: 0 0 40px var(--comet-cyan); }
+  75% { transform: scale(1.05); box-shadow: 0 0 30px var(--plasma-pink); }
+  100% { transform: scale(1); box-shadow: none; }
+}
+
+/* ========================================
+   TABLE ELEMENTS
+======================================== */
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  animation: float var(--slow-orbit) infinite ease-in-out;
+}
+
+th, td {
+  border: 1px solid var(--cosmic-blue);
+  padding: 12px 15px;
+  font-family: 'Space Mono', monospace;
+  color: var(--star-white);
+  animation: twinkle calc(var(--twinkle-speed) * 2) infinite ease-in-out;
+}
+
+th {
+  background: rgba(26, 35, 126, 0.3);
+  font-family: 'Orbitron', monospace;
+  font-weight: 600;
+  animation: cosmic-pulse calc(var(--pulse-speed) * 1.5) infinite ease-in-out;
+}
+
+tr:hover {
+  animation: plasma-wave 2s ease-in-out;
+}
+
+tr:hover td {
+  background: rgba(0, 188, 212, 0.1);
+  animation: hologram 2s ease-in-out;
+}
+
+/* ========================================
+   LIST ELEMENTS
+======================================== */
+
+ul, ol {
+  animation: float var(--slow-orbit) infinite ease-in-out;
+}
+
+li {
+  animation: twinkle calc(var(--twinkle-speed) * 1.5) infinite ease-in-out;
+  position: relative;
+  padding-left: 20px;
+}
+
+li:before {
+  content: '★';
+  position: absolute;
+  left: 0;
+  color: var(--galaxy-teal);
+  animation: orbit var(--fast-orbit) infinite linear;
+}
+
+li:hover {
+  animation: cosmic-pulse var(--pulse-speed) ease-in-out,
+             float 2s ease-in-out;
+}
+
+li:hover:before {
+  animation: supernova 0.5s ease-out;
+}
+
+/* ========================================
+   LOADING & PROGRESS ELEMENTS
+======================================== */
+
+.loading, .progress {
+  position: relative;
+  overflow: hidden;
+  animation: quantum-shimmer 2s linear infinite;
+}
+
+.loading:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--plasma-gradient);
+  animation: quantum-shimmer 1.5s linear infinite;
+}
+
+.spinner {
+  animation: galaxy-spin 1s linear infinite;
+}
+
+/* ========================================
+   RESPONSIVE ANIMATIONS
+======================================== */
+
+@media (max-width: 768px) {
+  /* Reduce animation intensity on mobile */
+  * {
+    animation-duration: calc(var(--slow-orbit) * 0.7) !important;
+  }
+  
+  .orbital, .large-orbital {
+    animation-duration: calc(var(--medium-orbit) * 0.8) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Respect user's motion preferences */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  *:hover {
+    transition: all 0.2s ease !important;
+  }
+}
