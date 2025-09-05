@@ -1,374 +1,513 @@
-/* ========================================
-   UNIVERSE THEME CSS FOR ONLINE-GO.COM
-   Click Effects Only - Stabilized
-======================================== */
+/* Enhanced Gaming Theme CSS for Online-Go.com Group */
 
-/* Import Google Fonts for futuristic typography */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700;900&family=Space+Mono:wght@400;700&display=swap');
+/* Gaming font imports */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
-/* ========================================
-   CSS VARIABLES
-======================================== */
+/* Enhanced gaming color palette with more vibrant colors */
 :root {
-  /* Cosmic Color Palette */
-  --deep-space: #0a0a0f;
-  --nebula-purple: #2d1b69;
-  --cosmic-blue: #1a237e;
-  --star-white: #ffffff;
-  --plasma-pink: #e91e63;
-  --solar-orange: #ff5722;
-  --galaxy-teal: #00bcd4;
-  --void-black: #000000;
-  --asteroid-gray: #37474f;
-  --comet-cyan: #00e5ff;
-  --supernova-gold: #ffc107;
+  --gaming-void: #000000;
+  --gaming-dark: #0a0e1a;
+  --gaming-primary: #1a1f2e;
+  --gaming-secondary: #252b3d;
+  --gaming-accent: #2d3748;
+  --gaming-blue: #00bfff;
+  --gaming-cyan: #00ffff;
+  --gaming-purple: #8a2be2;
+  --gaming-pink: #ff1493;
+  --gaming-green: #00ff7f;
+  --gaming-orange: #ff4500;
+  --gaming-text: #ffffff;
+  --gaming-text-bright: #f0f8ff;
+  --gaming-text-dim: #b0c4de;
+  --gaming-border: #4169e1;
+  --gaming-hover: rgba(0, 191, 255, 0.2);
+  --gaming-glow: rgba(0, 255, 255, 0.6);
+  --gaming-shadow: rgba(0, 0, 0, 0.8);
   
-  /* Cosmic Gradients */
-  --nebula-gradient: linear-gradient(135deg, var(--nebula-purple) 0%, var(--cosmic-blue) 50%, var(--deep-space) 100%);
-  --plasma-gradient: linear-gradient(45deg, var(--plasma-pink), var(--solar-orange), var(--galaxy-teal));
+  /* Enhanced vibrant colors for accessories */
+  --vibrant-cyan: #00ffff;
+  --vibrant-purple: #bf00ff;
+  --vibrant-pink: #ff0080;
+  --vibrant-blue: #0080ff;
+  --vibrant-green: #00ff40;
+  --vibrant-orange: #ff6000;
 }
 
-/* ========================================
-   CLICK ANIMATIONS ONLY
-======================================== */
-
-/* Subtle Click Ripple */
-@keyframes click-ripple {
-  0% { width: 0; height: 0; opacity: 0.6; }
-  100% { width: 120px; height: 120px; opacity: 0; }
+/* RGB Animation Keyframes */
+@keyframes rgb-border {
+  0% { border-color: var(--vibrant-cyan); box-shadow: 0 0 10px var(--vibrant-cyan); }
+  16% { border-color: var(--vibrant-blue); box-shadow: 0 0 10px var(--vibrant-blue); }
+  33% { border-color: var(--vibrant-purple); box-shadow: 0 0 10px var(--vibrant-purple); }
+  50% { border-color: var(--vibrant-pink); box-shadow: 0 0 10px var(--vibrant-pink); }
+  66% { border-color: var(--vibrant-orange); box-shadow: 0 0 10px var(--vibrant-orange); }
+  83% { border-color: var(--vibrant-green); box-shadow: 0 0 10px var(--vibrant-green); }
+  100% { border-color: var(--vibrant-cyan); box-shadow: 0 0 10px var(--vibrant-cyan); }
 }
 
-/* Gentle Click Scale */
-@keyframes click-scale {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.97); }
-  100% { transform: scale(1); }
+@keyframes subtle-glow {
+  0%, 100% { box-shadow: 0 0 5px var(--gaming-cyan); }
+  50% { box-shadow: 0 0 15px var(--gaming-cyan), 0 0 25px var(--gaming-blue); }
 }
 
-/* Soft Glow on Click */
-@keyframes click-glow {
-  0% { box-shadow: none; }
-  50% { box-shadow: 0 0 15px rgba(0, 188, 212, 0.4); }
-  100% { box-shadow: none; }
+@keyframes gentle-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
 }
 
-/* ========================================
-   UNIVERSAL RESET & BASE STYLES
-======================================== */
-
-* {
-  box-sizing: border-box;
-  /* No transitions - completely stable */
+/* Enhanced background */
+body {
+  background: 
+    radial-gradient(circle at 20% 20%, var(--gaming-purple) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, var(--gaming-blue) 0%, transparent 50%),
+    linear-gradient(135deg, var(--gaming-void) 0%, var(--gaming-dark) 50%, var(--gaming-primary) 100%) !important;
+  background-attachment: fixed !important;
+  color: var(--gaming-text) !important;
+  font-family: 'Rajdhani', sans-serif !important;
 }
 
-/* ========================================
-   TYPOGRAPHY
-======================================== */
+/* COMPLETE arrow removal - target all possible dropdown arrows */
+.dropdown-toggle::after,
+.nav-link::after,
+.navbar-nav .dropdown-toggle::after,
+.btn-group .dropdown-toggle::after,
+[data-toggle="dropdown"]::after,
+.dropdown > a::after,
+.dropdown > button::after,
+.dropup .dropdown-toggle::after,
+.navbar-nav .nav-link.dropdown-toggle::after,
+button.dropdown-toggle::after,
+a.dropdown-toggle::after,
+*[class*="dropdown"]::after {
+  display: none !important;
+  content: '' !important;
+  width: 0 !important;
+  height: 0 !important;
+  border: 0 !important;
+  margin: 0 !important;
+  vertical-align: 0 !important;
+}
 
+/* Remove all possible arrow borders */
+.dropdown-toggle,
+.dropdown-toggle::before,
+.dropdown-toggle::after,
+.nav-link,
+.navbar-nav .dropdown-toggle,
+.btn-group .dropdown-toggle,
+[data-toggle="dropdown"],
+.dropdown > a,
+.dropdown > button {
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+/* Header styling */
+.site-header,
+header,
+.navbar,
+nav {
+  background: linear-gradient(90deg, var(--gaming-primary), var(--gaming-secondary), var(--gaming-primary)) !important;
+  border-bottom: 2px solid var(--gaming-blue) !important;
+  box-shadow: 0 2px 10px rgba(0, 191, 255, 0.3) !important;
+  padding: 0 !important;
+}
+
+/* Navigation styling with proper spacing */
+.navbar-nav,
+.nav,
+.site-header .nav,
+header .nav {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-evenly !important;
+  gap: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.navbar-nav .nav-link,
+.navbar .nav-link,
+.site-header .nav-link,
+header .nav-link,
+nav > a,
+.nav > li > a {
+  color: var(--gaming-text-bright) !important;
+  font-family: 'Rajdhani', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  padding: 10px 15px !important;
+  margin: 0 !important;
+  border-radius: 6px !important;
+  text-decoration: none !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  line-height: 1.2 !important;
+  height: 40px !important;
+  flex: 1 !important;
+  background: rgba(45, 55, 72, 0.3) !important;
+  border: 1px solid rgba(0, 191, 255, 0.2) !important;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar .nav-link:hover,
+.site-header .nav-link:hover,
+header .nav-link:hover,
+nav > a:hover,
+.nav > li > a:hover {
+  color: var(--gaming-cyan) !important;
+  background: rgba(0, 255, 255, 0.1) !important;
+  border-color: var(--gaming-cyan) !important;
+  transform: translateY(-2px) !important;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.8) !important;
+  box-shadow: 0 2px 10px rgba(0, 191, 255, 0.3) !important;
+}
+
+/* Dropdown menus */
+.dropdown-menu {
+  background: linear-gradient(145deg, rgba(26, 31, 46, 0.95), rgba(37, 43, 61, 0.95)) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 2px solid var(--gaming-blue) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dropdown-item {
+  color: var(--gaming-text-bright) !important;
+  font-family: 'Rajdhani', sans-serif !important;
+  font-weight: 400 !important;
+  padding: 8px 16px !important;
+  transition: all 0.2s ease !important;
+}
+
+.dropdown-item:hover {
+  background: rgba(0, 255, 255, 0.1) !important;
+  color: var(--gaming-cyan) !important;
+  transform: translateX(5px) !important;
+}
+
+/* Card styling with RGB borders */
+.card,
+.panel,
+.group-card,
+div[class*="card"] {
+  background: linear-gradient(145deg, rgba(37, 43, 61, 0.9), rgba(45, 55, 72, 0.9)) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 2px solid var(--vibrant-cyan) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  animation: rgb-border 4s linear infinite !important;
+}
+
+.card:hover,
+.panel:hover,
+.group-card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 8px 25px rgba(0, 191, 255, 0.2) !important;
+}
+
+/* Enhanced button styling with subtle glow animation */
+button,
+input[type="submit"],
+input[type="button"],
+.btn {
+  background: linear-gradient(135deg, rgba(0, 191, 255, 0.8), rgba(138, 43, 226, 0.8)) !important;
+  border: 2px solid var(--vibrant-cyan) !important;
+  border-radius: 8px !important;
+  color: var(--gaming-text) !important;
+  font-family: 'Rajdhani', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  padding: 10px 18px !important;
+  margin: 2px !important;
+  min-height: 38px !important;
+  min-width: 85px !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  line-height: 1.2 !important;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4) !important;
+  animation: subtle-glow 3s ease-in-out infinite !important;
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.btn:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.9), rgba(191, 0, 255, 0.9)) !important;
+  color: var(--gaming-text) !important;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 0 20px var(--vibrant-cyan), 0 4px 20px rgba(0, 191, 255, 0.5) !important;
+  border-color: var(--vibrant-pink) !important;
+  animation: gentle-pulse 0.5s ease-in-out !important;
+}
+
+/* Hide duplicate cancel buttons - keep only the working one */
+button:contains("Cancel"):not(:last-child),
+.btn:contains("Cancel"):not(:last-child),
+input[value*="Cancel"]:not(:last-child) {
+  display: none !important;
+}
+
+/* Alternative approach for hiding duplicate buttons */
+.challenge-buttons button:nth-child(1),
+.challenge-buttons button:nth-child(2),
+.modal-footer button:nth-child(1):contains("Cancel"),
+.modal-footer button:nth-child(2):contains("Cancel"),
+div[class*="button"]:has(button:contains("Cancel")) button:nth-child(1),
+div[class*="button"]:has(button:contains("Cancel")) button:nth-child(2) {
+  display: none !important;
+}
+
+/* Enhanced headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Orbitron', monospace;
-  font-weight: 700;
-  color: var(--star-white);
-  text-shadow: 0 0 3px var(--galaxy-teal);
+  font-family: 'Orbitron', monospace !important;
+  color: var(--gaming-text) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), 0 0 5px rgba(0, 255, 255, 0.4) !important;
 }
 
-p, span, div {
-  font-family: 'Space Mono', monospace;
-  color: var(--star-white);
+h1 {
+  background: linear-gradient(45deg, var(--gaming-cyan), var(--gaming-purple), var(--gaming-pink)) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
 
-/* Holographic Text Effect */
-.holographic-text {
-  background: var(--plasma-gradient);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Input field styling */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  background: linear-gradient(135deg, rgba(26, 31, 46, 0.9), rgba(37, 43, 61, 0.9)) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 2px solid var(--vibrant-blue) !important;
+  border-radius: 6px !important;
+  color: var(--gaming-text-bright) !important;
+  font-family: 'Rajdhani', sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  padding: 10px 14px !important;
+  margin: 2px 0 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 0 8px rgba(0, 128, 255, 0.3) !important;
 }
 
-/* ========================================
-   INTERACTIVE BUTTONS
-======================================== */
-
-button, .btn, input[type="submit"], input[type="button"] {
-  font-family: 'Orbitron', monospace;
-  font-weight: 600;
-  border: 2px solid var(--cosmic-blue);
-  background: transparent;
-  color: var(--star-white);
-  padding: 12px 24px;
-  border-radius: 25px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  border-color: var(--vibrant-cyan) !important;
+  color: var(--gaming-text) !important;
+  box-shadow: 0 0 15px var(--vibrant-cyan) !important;
 }
 
-/* Click Effects Only */
-button:active, .btn:active {
-  animation: click-scale 0.2s ease-out,
-             click-glow 0.3s ease-out;
+/* Profile picture styling */
+.group-profile-pic,
+.group-avatar,
+img[class*="group"],
+.profile-pic,
+.profile-image {
+  border: 3px solid var(--vibrant-cyan) !important;
+  border-radius: 50% !important;
+  padding: 2px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 0 15px var(--vibrant-cyan) !important;
+  animation: rgb-border 5s linear infinite !important;
 }
 
-button:active:after, .btn:active:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(0, 188, 212, 0.3);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: click-ripple 0.4s ease-out;
+.group-profile-pic:hover,
+.group-avatar:hover,
+.profile-pic:hover,
+.profile-image:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 0 25px var(--vibrant-cyan) !important;
 }
 
-/* ========================================
-   FORM ELEMENTS
-======================================== */
-
-input, textarea, select {
-  font-family: 'Space Mono', monospace;
-  background: rgba(26, 35, 126, 0.1);
-  border: 2px solid var(--cosmic-blue);
-  color: var(--star-white);
-  padding: 10px 15px;
-  border-radius: 15px;
+/* PlayerIcon PlayerIcon-64 RGB border styling */
+.PlayerIcon.PlayerIcon-64,
+.PlayerIcon-64 {
+  border: 3px solid var(--vibrant-cyan) !important;
+  border-radius: 50% !important;
+  padding: 2px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 0 15px var(--vibrant-cyan) !important;
+  animation: rgb-border 5s linear infinite !important;
+  width: 64px !important;
+  height: 64px !important;
 }
 
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--galaxy-teal);
-  box-shadow: 0 0 5px var(--galaxy-teal);
+.PlayerIcon.PlayerIcon-64:hover,
+.PlayerIcon-64:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 0 25px var(--vibrant-cyan) !important;
 }
 
-/* ========================================
-   NAVIGATION ELEMENTS
-======================================== */
-
-nav a, .nav a {
-  color: var(--star-white);
-  text-decoration: none;
-  font-family: 'Orbitron', monospace;
-  font-weight: 400;
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid transparent;
-  position: relative;
-  overflow: hidden;
+/* Avatar styling */
+.avatar,
+.user-avatar,
+img[class*="avatar"]:not([class*="group"]):not(.profile-pic):not(.profile-image):not(.PlayerIcon) {
+  border: 2px solid var(--vibrant-blue) !important;
+  border-radius: 50% !important;
+  padding: 1px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 0 10px var(--vibrant-blue) !important;
+  animation: rgb-border 6s linear infinite !important;
 }
 
-/* Click Effects for Navigation */
-nav a:active, .nav a:active {
-  animation: click-scale 0.15s ease-out;
+.avatar:hover,
+.user-avatar:hover {
+  transform: scale(1.15) !important;
+  box-shadow: 0 0 20px var(--vibrant-cyan) !important;
 }
 
-nav a:active:after, .nav a:active:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(0, 188, 212, 0.2);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: click-ripple 0.3s ease-out;
+/* Link styling */
+a:not(.nav-link):not(.dropdown-toggle):not(.btn) {
+  color: var(--gaming-cyan) !important;
+  font-family: 'Rajdhani', sans-serif !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
 }
 
-/* ========================================
-   CARD & CONTAINER ELEMENTS
-======================================== */
-
-.card, .container, .box, .panel {
-  border: 1px solid var(--cosmic-blue);
-  border-radius: 20px;
-  padding: 20px;
-  margin: 10px;
-  background: rgba(10, 10, 15, 0.8);
-  position: relative;
-  overflow: hidden;
+a:not(.nav-link):not(.dropdown-toggle):not(.btn):hover {
+  color: var(--gaming-text) !important;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.6) !important;
 }
 
-/* Click Effects for Cards */
-.card:active, .container:active, .box:active, .panel:active {
-  animation: click-scale 0.2s ease-out;
+/* Enhanced vibrant scrollbar styling */
+::-webkit-scrollbar {
+  width: 14px !important;
+  background: var(--gaming-dark) !important;
 }
 
-.card:active:before, .container:active:before, .box:active:before, .panel:active:before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(0, 188, 212, 0.1);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: click-ripple 0.5s ease-out;
+::-webkit-scrollbar-track {
+  background: rgba(26, 31, 46, 0.8) !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--vibrant-purple) !important;
 }
 
-/* ========================================
-   SPECIAL COSMIC CLASSES
-======================================== */
-
-/* Click-Only Effects */
-.click-effect {
-  position: relative;
-  overflow: hidden;
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--vibrant-cyan), var(--vibrant-purple), var(--vibrant-pink)) !important;
+  border-radius: 8px !important;
+  border: 2px solid var(--gaming-primary) !important;
+  box-shadow: 0 0 10px var(--vibrant-cyan) !important;
+  animation: rgb-border 3s linear infinite !important;
 }
 
-.click-effect:active {
-  animation: click-scale 0.2s ease-out;
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--vibrant-pink), var(--vibrant-orange), var(--vibrant-green)) !important;
+  box-shadow: 0 0 15px var(--vibrant-pink) !important;
 }
 
-.click-effect:active:before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: radial-gradient(circle, var(--comet-cyan) 0%, transparent 70%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: click-ripple 0.4s ease-out;
-}
-
-.sound-click:active {
-  animation: click-glow 0.2s ease-out,
-             click-scale 0.15s ease-out;
-}
-
-.gentle-click:active {
-  animation: click-scale 0.25s ease-out;
-}
-
-/* ========================================
-   TABLE ELEMENTS
-======================================== */
-
+/* Table styling with RGB borders */
 table {
-  border-collapse: separate;
-  border-spacing: 0;
+  background: linear-gradient(145deg, rgba(26, 31, 46, 0.95), rgba(37, 43, 61, 0.95)) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 2px solid var(--vibrant-blue) !important;
+  border-radius: 8px !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  overflow: hidden !important;
+  box-shadow: 0 0 15px rgba(0, 128, 255, 0.4) !important;
+  animation: rgb-border 6s linear infinite !important;
 }
 
-th, td {
-  border: 1px solid var(--cosmic-blue);
-  padding: 12px 15px;
-  font-family: 'Space Mono', monospace;
-  color: var(--star-white);
+thead,
+.table-header {
+  background: linear-gradient(90deg, var(--vibrant-blue), var(--vibrant-purple)) !important;
 }
 
 th {
-  background: rgba(26, 35, 126, 0.3);
-  font-family: 'Orbitron', monospace;
-  font-weight: 600;
+  color: var(--gaming-text) !important;
+  font-family: 'Orbitron', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  padding: 12px 10px !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
-/* Click Effects for Table Rows */
-tr {
-  position: relative;
-  overflow: hidden;
+td {
+  color: var(--gaming-text-bright) !important;
+  font-family: 'Rajdhani', sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 13px !important;
+  padding: 10px !important;
+  border-bottom: 1px solid var(--vibrant-cyan) !important;
+  transition: all 0.2s ease !important;
 }
 
-tr:active {
-  animation: click-scale 0.15s ease-out;
+tr:hover {
+  background: rgba(0, 255, 255, 0.05) !important;
+  transform: translateX(3px) !important;
 }
 
-tr:active:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 188, 212, 0.1);
-  animation: click-glow 0.3s ease-out;
+tr:hover td {
+  color: var(--gaming-text) !important;
 }
 
-/* ========================================
-   LIST ELEMENTS
-======================================== */
-
-li {
-  position: relative;
-  padding-left: 20px;
-  overflow: hidden;
+/* Footer styling */
+footer,
+.site-footer,
+.footer {
+  background: linear-gradient(90deg, var(--gaming-dark), var(--gaming-primary)) !important;
+  border-top: 2px solid var(--gaming-blue) !important;
+  color: var(--gaming-text-dim) !important;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
-li:before {
-  content: '★';
-  position: absolute;
-  left: 0;
-  color: var(--cosmic-blue);
+/* Text visibility */
+p, span, div, li, td, th, label {
+  color: var(--gaming-text-bright) !important;
 }
 
-/* Click Effects for List Items */
-li:active {
-  animation: click-scale 0.15s ease-out;
-}
-
-li:active:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(0, 188, 212, 0.2);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: click-ripple 0.3s ease-out;
-}
-
-/* ========================================
-   CLICKABLE ELEMENTS
-======================================== */
-
-/* Make any element clickable with cosmic effects */
-.clickable {
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
-.clickable:active {
-  animation: click-scale 0.2s ease-out;
-}
-
-.clickable:active:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(0, 188, 212, 0.3);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: click-ripple 0.4s ease-out;
-}
-
-/* ========================================
-   RESPONSIVE DESIGN
-======================================== */
-
+/* Mobile optimizations */
 @media (max-width: 768px) {
-  button, .btn {
-    padding: 10px 20px;
-    font-size: 0.9rem;
+  .navbar-nav .nav-link,
+  .nav-link {
+    font-size: 12px !important;
+    padding: 8px 10px !important;
+    height: 36px !important;
   }
   
-  .card, .container, .box, .panel {
-    padding: 15px;
-    margin: 5px;
+  button,
+  .btn {
+    font-size: 12px !important;
+    padding: 8px 14px !important;
+    min-width: 75px !important;
+    min-height: 34px !important;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
+  
+  h1 {
+    font-size: 20px !important;
+  }
+  
+  /* Reduce animation intensity on mobile */
   * {
-    animation: none !important;
+    animation-duration: 6s !important;
   }
 }
