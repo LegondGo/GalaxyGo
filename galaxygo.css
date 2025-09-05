@@ -1,9 +1,7 @@
-/* Enhanced Gaming Theme CSS for Online-Go.com Group */
 
-/* Gaming font imports */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
-/* Enhanced gaming color palette with more vibrant colors */
+
 :root {
   --gaming-void: #000000;
   --gaming-dark: #0a0e1a;
