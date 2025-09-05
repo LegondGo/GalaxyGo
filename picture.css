@@ -1,0 +1,25 @@
+/* Clean background application - targets only the main background */
+body {
+    background-image: url('https://i.ibb.co/5WQR2pdX/atlantis-nexus-nebula-black-background-digital-render-3840x2160-3704.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+}
+
+/* Alternative approach - if body doesn't work, try html */
+html {
+    background-image: url('https://i.ibb.co/5WQR2pdX/atlantis-nexus-nebula-black-background-digital-render-3840x2160-3704.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    min-height: 100% !important;
+}
+
+/* Ensure containers remain transparent to show background */
+.container {
+    background: transparent !important;
+    width: auto !important;
+    max-width: none !important;
+}
